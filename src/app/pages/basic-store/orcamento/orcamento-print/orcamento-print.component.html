@@ -1,0 +1,25 @@
+<div id="relatorio">
+  <h2>Orçamento Nº {{ orcamento.numero }}</h2>
+  <br/>
+  <h3> Cliente: {{ orcamento?.cliente?.nome }}</h3>
+
+  <br/>
+  <br/>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Produto</th>
+        <th scope="col">Quantidade</th>
+        <th scope="col">Valor</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let op of orcamento.orcamentosProdutos">
+        <td>{{ op.produto.descricao }}</td>
+        <td>{{ op.quantidade }}</td>
+        <td>{{ op.vlrUnitario }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>

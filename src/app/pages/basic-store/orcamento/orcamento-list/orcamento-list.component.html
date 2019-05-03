@@ -1,0 +1,23 @@
+<h3>Orçamentos</h3>
+<nb-card>
+  <nb-card-header>Cliente</nb-card-header>
+  <nb-card-body>
+    <form [formGroup]="form">
+      <div class="row">
+        <div class="col-12">
+          <bsc-cliente-auto-complete [formControl]="form.controls.cliente" (onSelect)="onSelectCliente($event)">
+          </bsc-cliente-auto-complete>
+        </div>
+      </div>
+    </form>
+  </nb-card-body>
+</nb-card>
+
+<nb-card>
+  <nb-card-header>Orçamento</nb-card-header>
+  <nb-card-body>
+    <ng2-smart-table [settings]="settings" [source]="orcamentos" (deleteConfirm)="onDeleteConfirm($event)"
+      (createConfirm)="onCreateConfirm($event)" (editConfirm)="onEditConfirm($event)">
+    </ng2-smart-table>
+  </nb-card-body>
+</nb-card>

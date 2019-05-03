@@ -1,0 +1,55 @@
+<div class="row">
+  <div class="col">
+    <nb-card>
+      <nb-card-header>Produtos</nb-card-header>
+      <nb-card-body>
+        <div *ngFor="let item of produtos;" class="row">
+          <div class="col-4">
+            <div class="form-group">
+              <label style="margin-top: 25px">{{ item.descricao }}</label>
+            </div>
+          </div>
+          <div class="col-1">
+            <div class="form-group text-center">
+              <label for="u" class="text-center">U</label>
+              <input type="text" class="form-control form-control-sm" id="u" [(ngModel)]="item.estoque.u">
+            </div>
+          </div>
+          <div class="col-1">
+            <div class="form-group text-center">
+              <label for="pp">PP</label>
+              <input type="text" class="form-control form-control-sm" id="pp" [(ngModel)]="item.estoque.pp">
+            </div>
+          </div>
+          <div class="col-1">
+            <div class="form-group text-center">
+              <label for="p">P</label>
+              <input type="text" class="form-control form-control-sm" id="p" [(ngModel)]="item.estoque.p">
+            </div>
+          </div>
+          <div class="col-1">
+            <div class="form-group text-center">
+              <label for="m">M</label>
+              <input type="text" class="form-control form-control-sm" id="m" [(ngModel)]="item.estoque.m">
+            </div>
+          </div>
+          <div class="col-1">
+            <div class="form-group text-center">
+              <label for="g">G</label>
+              <input type="text" class="form-control form-control-sm" id="g" [(ngModel)]="item.estoque.g">
+            </div>
+          </div>
+          <div class="col-1">
+            <div class="form-group text-center">
+              <label for="gg">GG</label>
+              <input type="text" class="form-control form-control-sm" id="gg" [(ngModel)]="item.estoque.gg">
+            </div>
+          </div>
+        </div>
+      </nb-card-body>
+    </nb-card>
+  </div>
+</div>
+
+<button type="button" class="btn btn-primary" (click)="salvar()">Salvar</button>
+<button type="button" class="btn btn-warning" (click)="reset()">Cancelar</button>

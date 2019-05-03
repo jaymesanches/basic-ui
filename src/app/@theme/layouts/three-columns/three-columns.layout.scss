@@ -54,6 +54,11 @@
     /deep/ .main-container {
       height:
         calc(#{nb-theme(sidebar-height)} - #{nb-theme(header-height)} - #{nb-theme(sidebar-header-gap)}) !important;
+
+        & nb-menu .menu-item .menu-icon.fa {
+          font-size: 2rem;
+          line-height: 2.5rem;
+        }
       @include nb-ltr(border-top-right-radius, nb-theme(radius));
       @include nb-rtl(border-top-left-radius, nb-theme(radius));
 

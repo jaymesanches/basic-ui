@@ -1,0 +1,96 @@
+<h3>Produto</h3>
+<form [formGroup]="form">
+  <nb-card>
+    <nb-card-header>Dados Básicos</nb-card-header>
+    <nb-card-body>
+      <div class="row">
+        <div class="col-2">
+          <div class="form-group">
+            <label for="codigo">Código</label>
+            <input type="number" class="form-control" id="codigo" formControlName="codigo">
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label for="descricao">Descrição</label>
+            <input type="text" class="form-control" id="descricao" formControlName="descricao">
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label for="categoria">Categoria</label>
+            <input type="text" class="form-control" id="categoria" formControlName="categoria">
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label for="peso">Peso(gramas)</label>
+            <input type="text" class="form-control" id="peso" formControlName="peso">
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label for="cor">Cor</label>
+            <input type="text" class="form-control" id="cor" formControlName="cor">
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label for="valor">Valor</label>
+            <input type="text" class="form-control" id="valor" formControlName="valor">
+          </div>
+        </div>
+      </div>
+    </nb-card-body>
+  </nb-card>
+  <nb-card>
+    <nb-card-header>Estoque</nb-card-header>
+    <nb-card-body>
+      <div formGroupName="estoque" class="row">
+        <div class="col">
+          <div class="form-group text-center">
+            <label for="u">U</label>
+            <input type="text" class="form-control" id="u" formControlName="u">
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group text-center">
+            <label for="pp">PP</label>
+            <input type="text" class="form-control" id="pp" formControlName="pp">
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group text-center">
+            <label for="p">P</label>
+            <input type="text" class="form-control" id="p" formControlName="p">
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group text-center">
+            <label for="m">M</label>
+            <input type="text" class="form-control" id="m" formControlName="m">
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group text-center">
+            <label for="g">G</label>
+            <input type="text" class="form-control" id="g" formControlName="g">
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group text-center">
+            <label for="gg">GG</label>
+            <input type="text" class="form-control" id="gg" formControlName="gg">
+          </div>
+        </div>
+      </div>
+    </nb-card-body>
+  </nb-card>
+</form>
+
+<button type="button" class="btn btn-primary" (click)="salvar()">Salvar</button>
+<button type="button" class="btn btn-warning" (click)="reset()">Limpar</button>
