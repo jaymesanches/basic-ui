@@ -17,10 +17,10 @@ import { ButtonViewTableRenderComponent } from './produto-table-render/button-vi
 @NgModule({
   imports: [
     CommonModule,
-    ThemeModule,
-    Ng2SmartTableModule,
     OrcamentoRoutingModule,
+    ThemeModule,
     SharedModule,
+    Ng2SmartTableModule,
   ],
   declarations: [OrcamentoComponent, OrcamentoListComponent,
     OrcamentoFormComponent, ProdutoTableRenderComponent,

@@ -12,7 +12,10 @@ export class ProdutoListComponent extends BaseComponent implements OnInit {
 
   settings = {
     actions: {
-      columnTitle: 'Ações'
+      columnTitle: 'Ações',
+      add: false,
+      edit: false,
+      delete: false,
     },
     add: {
       addButtonContent: '<i class="nb-plus"></i>',
@@ -42,22 +45,6 @@ export class ProdutoListComponent extends BaseComponent implements OnInit {
       descricao: {
         title: 'Descrição',
         type: 'string',
-      },
-      tamanho: {
-        title: 'Tamanho',
-        filter: {
-          type: 'list',
-          config: {
-            selectText: 'Selecione...',
-            list: this.tamanhos,
-          }
-        },
-        editor: {
-          type: 'list',
-          config: {
-            list: this.tamanhos,
-          },
-        },
       },
       peso: {
         title: 'Peso(Gramas)',
@@ -90,19 +77,16 @@ export class ProdutoListComponent extends BaseComponent implements OnInit {
   }
 
   onEditConfirm(event) {
-    console.log('E>', event.data);
     this.service.put(event.newData).subscribe(data => {
       console.log('DATA EDIT', data);
       event.confirm.resolve();
-    },
-      error => {
-        console.log('Error', error);
-        event.confirm.reject();
-      })
+    }, error => {
+      console.log('Error', error);
+      event.confirm.reject();
+    });
   }
 
   onCreateConfirm(event) {
-    console.log('C>', event, this.produtos);
     this.service.post(event.newData).subscribe();
     this.produtos = [...this.produtos, event.newData];
     event.confirm.resolve();
@@ -114,5 +98,4 @@ export class ProdutoListComponent extends BaseComponent implements OnInit {
       event.confirm.resolve();
     }, error => event.confirm.reject());
   }
-
 }

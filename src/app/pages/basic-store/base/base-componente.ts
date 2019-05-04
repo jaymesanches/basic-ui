@@ -1,5 +1,9 @@
 export class BaseComponent {
 
+  rows = [];
+  loadingIndicator: boolean = false;
+  reorderable: boolean = true;
+
   tamanhos = [
     { value: 'PP', title: 'PP' },
     { value: 'P', title: 'P' },

@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+
 import { ProductRoutingModule } from './produto-routing.module';
 import { ProdutoListComponent } from './produto-list/produto-list.component';
 import { ProdutoComponent } from './produto.component';
@@ -22,6 +24,7 @@ const COMPONENTS = [
     CommonModule,
     NgbModule,
     Ng2SmartTableModule,
+    NgxDatatableModule,
     ProductRoutingModule
   ]
 })

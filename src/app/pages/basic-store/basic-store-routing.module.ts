@@ -19,6 +19,10 @@ const routes: Routes = [
         path: 'orcamento',
         loadChildren: './orcamento/orcamento.module#OrcamentoModule'
       },
+      {
+        path: 'pedido',
+        loadChildren: './pedido/pedido.module#PedidoModule'
+      },
     ]
   }
 ];

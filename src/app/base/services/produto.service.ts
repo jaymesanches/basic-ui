@@ -33,13 +33,8 @@ export class ProdutoService extends BaseService {
   }
 
   put(produto) {
-    console.log('Produto-body', produto);
     return this.http.put<Produto>(`${this.url}/update/${produto._id}`, produto).pipe(
-      tap( // Log the result or error
-        data => console.log('tap', data),
-        error => console.log('tap error', error)
-      )
-      // catchError(this.handleError)
+      catchError(this.handleError)
     );
   }
 

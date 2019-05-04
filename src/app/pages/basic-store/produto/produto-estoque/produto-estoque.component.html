@@ -3,49 +3,56 @@
     <nb-card>
       <nb-card-header>Produtos</nb-card-header>
       <nb-card-body>
-        <div *ngFor="let item of produtos;" class="row">
-          <div class="col-4">
-            <div class="form-group">
-              <label style="margin-top: 25px">{{ item.descricao }}</label>
-            </div>
-          </div>
-          <div class="col-1">
-            <div class="form-group text-center">
-              <label for="u" class="text-center">U</label>
-              <input type="text" class="form-control form-control-sm" id="u" [(ngModel)]="item.estoque.u">
-            </div>
-          </div>
-          <div class="col-1">
-            <div class="form-group text-center">
-              <label for="pp">PP</label>
-              <input type="text" class="form-control form-control-sm" id="pp" [(ngModel)]="item.estoque.pp">
-            </div>
-          </div>
-          <div class="col-1">
-            <div class="form-group text-center">
-              <label for="p">P</label>
-              <input type="text" class="form-control form-control-sm" id="p" [(ngModel)]="item.estoque.p">
-            </div>
-          </div>
-          <div class="col-1">
-            <div class="form-group text-center">
-              <label for="m">M</label>
-              <input type="text" class="form-control form-control-sm" id="m" [(ngModel)]="item.estoque.m">
-            </div>
-          </div>
-          <div class="col-1">
-            <div class="form-group text-center">
-              <label for="g">G</label>
-              <input type="text" class="form-control form-control-sm" id="g" [(ngModel)]="item.estoque.g">
-            </div>
-          </div>
-          <div class="col-1">
-            <div class="form-group text-center">
-              <label for="gg">GG</label>
-              <input type="text" class="form-control form-control-sm" id="gg" [(ngModel)]="item.estoque.gg">
-            </div>
-          </div>
-        </div>
+        <ngx-datatable class="bootstrap stripped" [rows]="produtos" [loadingIndicator]="loadingIndicator"
+          [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="3"
+          [reorderable]="reorderable">
+
+          <ngx-datatable-column name="Código" prop="codigo"> </ngx-datatable-column>
+          <ngx-datatable-column name="Descrição" prop="descricao"> </ngx-datatable-column>
+
+          <ngx-datatable-column name="U" prop="estoque.u" headerClass="text-center">
+            <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex"  let-value="value" let-row="row">
+              <input class="form-control form-control-sm text-center" type="number" 
+              [value]="value" (blur)="updateValue($event, 'u', rowIndex)"/>
+            </ng-template>
+          </ngx-datatable-column>
+
+          <ngx-datatable-column name="PP" prop="estoque.pp" headerClass="text-center">
+            <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+              <input class="form-control form-control-sm text-center" type="number" 
+              [(value)]="value" (blur)="updateValue($event, 'pp', rowIndex)"/>
+            </ng-template>
+          </ngx-datatable-column>
+
+          <ngx-datatable-column name="P" prop="estoque.p" headerClass="text-center">
+            <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+              <input class="form-control form-control-sm" type="number" 
+              [value]="value" (blur)="updateValue($event, 'p', rowIndex)"/>
+            </ng-template>
+          </ngx-datatable-column>
+
+          <ngx-datatable-column name="M" prop="estoque.m" headerClass="text-center">
+            <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+              <input class="form-control form-control-sm" type="number" 
+              [value]="value" (blur)="updateValue($event, 'm', rowIndex)"/>
+            </ng-template>
+          </ngx-datatable-column>
+
+          <ngx-datatable-column name="G" prop="estoque.g" headerClass="text-center">
+            <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+              <input class="form-control form-control-sm" type="number" 
+              [value]="value" (blur)="updateValue($event, 'g', rowIndex)"/>
+            </ng-template>
+          </ngx-datatable-column>
+
+          <ngx-datatable-column name="GG" prop="estoque.gg" headerClass="text-center">
+            <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+              <input class="form-control form-control-sm" type="number" 
+              [value]="value" (blur)="updateValue($event, 'gg', rowIndex)"/>
+            </ng-template>
+          </ngx-datatable-column>
+
+        </ngx-datatable>
       </nb-card-body>
     </nb-card>
   </div>

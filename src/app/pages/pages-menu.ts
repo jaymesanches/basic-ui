@@ -50,7 +50,7 @@ export const MENU_ITEMS: NbMenuItem[] = [
   },
   {
     title: 'Orçamento',
-    icon: 'fa fa-handshake',
+    icon: 'fa fa-file-signature',
     children: [
       {
         title: 'Pesquisa',
@@ -59,6 +59,20 @@ export const MENU_ITEMS: NbMenuItem[] = [
       {
         title: 'Novo',
         link: '/pages/basic-store/orcamento/orcamento-form',
+      },
+    ],
+  },
+  {
+    title: 'Pedido',
+    icon: 'fa fa-money-bill-alt',
+    children: [
+      {
+        title: 'Pesquisa',
+        link: '/pages/basic-store/pedido/pedido-list',
+      },
+      {
+        title: 'Novo',
+        link: '/pages/basic-store/pedido/pedido-form',
       },
     ],
   },

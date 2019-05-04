@@ -21,6 +21,12 @@ export class OrcamentoService extends BaseService {
     );
   }
 
+  findOne(obj: any) {
+    return this.http.post<Orcamento>(`${this.url}/findOne`, obj).pipe(
+      catchError(this.handleError),
+    );
+  }
+
   list() {
     return this.http.get<Orcamento[]>(`${this.url}/list`).pipe(
       catchError(this.handleError),

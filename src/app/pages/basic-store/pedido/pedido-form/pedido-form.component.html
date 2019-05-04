@@ -1,0 +1,38 @@
+<h3>Pedido</h3>
+<form [formGroup]="form">
+  <nb-card>
+    <nb-card-header>Pesquisa de Orçamento</nb-card-header>
+    <nb-card-body>
+      <div class="row">
+        <div class="col-lg-2 col-md-6 col-sm-12">
+          <div class="form-group">
+            <label for="numOrcamento">Número do Orçamento</label>
+            <input type="number" class="form-control" id="numOrcamento" formControlName="numOrcamento"
+              (blur)="onBlurOrcamento($event)">
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          {{ orcamento?.cliente?.nome }}
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          {{ orcamento?.cliente?.enderecos[0].cep }}
+        </div>
+      </div>
+    </nb-card-body>
+  </nb-card>
+  <nb-card>
+    <nb-card-header>Produtos</nb-card-header>
+    <nb-card-body>
+      <div class="row">
+        <div class="col-lg-2 col-md-6 col-sm-12">
+          <div class="form-group">
+          </div>
+        </div>
+      </div>
+    </nb-card-body>
+  </nb-card>
+</form>
