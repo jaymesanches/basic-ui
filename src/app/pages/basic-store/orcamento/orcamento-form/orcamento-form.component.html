@@ -26,6 +26,29 @@
             </bsc-produto-auto-complete>
           </div>
         </div>
+
+        <div class="mb-2">Tamanho</div>
+        <div class="btn-group btn-group-toggle mb-4" ngbRadioGroup name="radioBasic" formControlName="tamanho">
+          <label ngbButtonLabel class="btn-primary">
+            <input ngbButton type="radio" [value]="'u'"> U <span class="badge badge-light">{{ produto?.value?.estoque?.u }}</span>
+          </label>
+          <label ngbButtonLabel class="btn-primary">
+            <input ngbButton type="radio" [value]="'pp'"> PP <span class="badge badge-light">{{ produto?.value?.estoque?.pp }}</span>
+          </label>
+          <label ngbButtonLabel class="btn-primary">
+            <input ngbButton type="radio" [value]="'p'"> P <span class="badge badge-light">{{ produto?.value?.estoque?.p }}</span>
+          </label>
+          <label ngbButtonLabel class="btn-primary">
+            <input ngbButton type="radio" [value]="'m'"> M <span class="badge badge-light">{{ produto?.value?.estoque?.m }}</span>
+          </label>
+          <label ngbButtonLabel class="btn-primary">
+            <input ngbButton type="radio" [value]="'g'"> G <span class="badge badge-light">{{ produto?.value?.estoque?.g }}</span>
+          </label>
+          <label ngbButtonLabel class="btn-primary">
+            <input ngbButton type="radio" [value]="'gg'"> GG <span class="badge badge-light">{{ produto?.value?.estoque?.gg }}</span>
+          </label>
+        </div>
+
         <div class="row">
           <div class="col-2">
             <div class="form-group">

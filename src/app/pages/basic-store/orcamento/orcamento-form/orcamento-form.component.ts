@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { NbToastrService } from '@nebular/theme';
 import { OrcamentoService } from '../../../../base/services/orcamento.service';
 import { BaseComponent } from '../../base/base-componente';
 import { Endereco } from '../../cliente/endereco';
@@ -8,10 +10,11 @@ import { Orcamento } from '../orcamento';
 import { OrcamentoProduto } from '../orcamento-produto';
 import { ProdutoTableRenderComponent } from '../produto-table-render/produto-table-render.component';
 import { TotalItemTableRenderComponent } from '../produto-table-render/total-item-table-render.component';
-import { Router } from '@angular/router';
 
 class ItemOrcamento {
   produto: Produto;
+  tamanho: String;
+  cor: String;
   vlrUnitario: Number;
   quantidade: Number;
 }
@@ -47,12 +50,20 @@ export class OrcamentoFormComponent extends BaseComponent implements OnInit {
         type: 'custom',
         renderComponent: ProdutoTableRenderComponent,
       },
-      vlrUnitario: {
-        title: 'Valor',
-        type: 'number',
+      cor: {
+        title: 'Cor',
+        type: 'string',
+      },
+      tamanho: {
+        title: 'Tamanho',
+        type: 'string',
       },
       quantidade: {
         title: 'Quantidade',
+        type: 'number',
+      },
+      vlrUnitario: {
+        title: 'Valor',
         type: 'number',
       },
       total: {
@@ -66,7 +77,8 @@ export class OrcamentoFormComponent extends BaseComponent implements OnInit {
   constructor(
     private service: OrcamentoService,
     private fb: FormBuilder,
-    private router: Router) {
+    private router: Router,
+    private toastrService: NbToastrService) {
     super();
   }
 
@@ -78,24 +90,43 @@ export class OrcamentoFormComponent extends BaseComponent implements OnInit {
     });
     this.formProduto = this.fb.group({
       produto: ['', [Validators.required]],
+      cor: ['', []],
       quantidade: ['', [Validators.required]],
       vlrUnitario: ['', [Validators.required]],
+      tamanho: ['', [Validators.required]],
+      estoque: this.fb.group({
+        u: [0],
+        pp: [0],
+        p: [0],
+        m: [0],
+        g: [0],
+        gg: [0],
+      })
     });
   }
 
   adicionarProduto() {
     const item = new ItemOrcamento();
     item.produto = this.formProduto.controls.produto.value;
+    item.tamanho = this.formProduto.controls.tamanho.value;
+    item.cor = item.produto.cor;
     item.quantidade = Number(this.formProduto.controls.quantidade.value);
     item.vlrUnitario = Number(this.formProduto.controls.vlrUnitario.value);
 
-    this.itens = [...this.itens, item];
+    const totalEstoque = item.produto.estoque[item.tamanho as any];
 
-    const vlrTotal = this.itens.reduce(
-      function (total, obj) { return total + obj.vlrUnitario * obj.quantidade; }, 0);
-    this.form.controls.vlrTotal.setValue(vlrTotal);
+    if (item.quantidade <= totalEstoque) {
+      this.itens = [...this.itens, item];
 
-    this.formProduto.reset();
+      const vlrTotal = this.itens.reduce(
+        function (total, obj) { return total + obj.vlrUnitario * obj.quantidade; }, 0);
+      this.form.controls.vlrTotal.setValue(vlrTotal);
+
+      this.formProduto.reset();
+    } else {
+      const mensagem = totalEstoque <= 0 ? 'Sem estoque.' : `Estoque insuficiente, somente ${totalEstoque} em estoque.`;
+      this.toastrService.danger(mensagem, 'Atenção');
+    }
   }
 
   salvar() {
@@ -113,6 +144,7 @@ export class OrcamentoFormComponent extends BaseComponent implements OnInit {
     this.orcamento.vlrTotal = this.form.controls.vlrTotal.value;
 
     this.service.post(this.orcamento).subscribe(data => {
+      this.toastrService.success('Orçamento salvo com sucesso.', 'Aviso');
     });
   }
 
@@ -129,7 +161,8 @@ export class OrcamentoFormComponent extends BaseComponent implements OnInit {
   }
 
   onSelectProduto(produto) {
-    this.formProduto.get('produto').setValue(produto);
+    this.produto.setValue(produto);
+    this.formProduto.controls.vlrUnitario.setValue(produto.valor);
   }
 
   onDeleteConfirm(op) {
@@ -141,5 +174,9 @@ export class OrcamentoFormComponent extends BaseComponent implements OnInit {
   private enderecoFormatado(endereco: Endereco) {
     const enderecoFormatado = `${endereco.logradouro}, Nº ${endereco.numero} - ${endereco.cidade} - ${endereco.estado}`;
     return enderecoFormatado;
+  }
+
+  get produto() {
+    return this.formProduto.get('produto');
   }
 }

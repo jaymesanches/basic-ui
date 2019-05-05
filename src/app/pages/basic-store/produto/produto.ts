@@ -5,7 +5,6 @@ export class Produto {
   codigo: string;
   descricao: string;
   peso: number;
-  tamanho: number;
   cor: string;
   valor: number;
   estoque: Estoque = new Estoque();

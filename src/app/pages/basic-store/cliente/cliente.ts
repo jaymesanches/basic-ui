@@ -7,5 +7,5 @@ export class Cliente {
   email: number;
   documento: number;
   instagram: string;
-  enderecos: Endereco[] = []; 
+  enderecos: Endereco[] = [];
 }

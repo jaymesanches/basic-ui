@@ -1,3 +1,4 @@
+
 export class BaseComponent {
 
   rows = [];
@@ -12,5 +13,4 @@ export class BaseComponent {
     { value: 'GG', title: 'GG' },
     { value: 'XG', title: 'XG' }
   ]
-
 }

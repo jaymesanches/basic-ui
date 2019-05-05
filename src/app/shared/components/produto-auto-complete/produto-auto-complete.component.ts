@@ -8,6 +8,7 @@ import { Produto } from '../../../pages/basic-store/produto/produto';
 
 export const CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR: any = {
   provide: NG_VALUE_ACCESSOR,
+// tslint:disable-next-line: no-use-before-declare
   useExisting: forwardRef(() => ProdutoAutoCompleteComponent),
   multi: true
 };
@@ -20,7 +21,7 @@ export const CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR: any = {
 })
 export class ProdutoAutoCompleteComponent implements ControlValueAccessor {
   @Input() formControl: FormControl = new FormControl();
-  @Output('onSelect') onSelect = new EventEmitter<Produto>();
+  @Output() onSelect = new EventEmitter<Produto>();
   @ViewChild('input') inputRef: ElementRef;
   searching;
   searchFailed;
@@ -43,28 +44,28 @@ export class ProdutoAutoCompleteComponent implements ControlValueAccessor {
           }))
       ),
       tap(() => this.searching = false)
-    );
+    )
 
-  formatter = produto => { 
+  formatter = produto => {
     this.onSelect.emit(produto);
     this.value = produto;
-    return `${produto.descricao} - ${produto.tamanho} - ${produto.cor}`;
-  };
-  
-  getDescricao(produto){
-    return `${produto.descricao} - ${produto.tamanho} - ${produto.cor}`;
+    return `${produto.descricao} - ${produto.cor}`;
+  }
+
+  getDescricao(produto) {
+    return `${produto.descricao} - ${produto.cor}`;
   }
 
   writeValue(obj: any): void {
     this.value = obj;
   }
-  
+
   registerOnChange(fn: any): void {
     this.onChange = fn;
   }
 
   registerOnTouched(fn: any): void {
-    
+
   }
   setDisabledState?(isDisabled: boolean): void {
   }
