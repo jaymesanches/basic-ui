@@ -30,22 +30,28 @@
         <div class="mb-2">Tamanho</div>
         <div class="btn-group btn-group-toggle mb-4" ngbRadioGroup name="radioBasic" formControlName="tamanho">
           <label ngbButtonLabel class="btn-primary">
-            <input ngbButton type="radio" [value]="'u'"> U <span class="badge badge-light">{{ produto?.value?.estoque?.u }}</span>
+            <input ngbButton type="radio" [value]="'u'"> U <span class="badge badge-light">{{ produto?.value?.estoque?.u || 0 }}</span>
           </label>
           <label ngbButtonLabel class="btn-primary">
-            <input ngbButton type="radio" [value]="'pp'"> PP <span class="badge badge-light">{{ produto?.value?.estoque?.pp }}</span>
+            <input ngbButton type="radio" [value]="'pp'"> PP <span class="badge badge-light">{{ produto?.value?.estoque?.pp || 0 }}</span>
           </label>
           <label ngbButtonLabel class="btn-primary">
-            <input ngbButton type="radio" [value]="'p'"> P <span class="badge badge-light">{{ produto?.value?.estoque?.p }}</span>
+            <input ngbButton type="radio" [value]="'p'"> P <span class="badge badge-light">{{ produto?.value?.estoque?.p || 0 }}</span>
           </label>
           <label ngbButtonLabel class="btn-primary">
-            <input ngbButton type="radio" [value]="'m'"> M <span class="badge badge-light">{{ produto?.value?.estoque?.m }}</span>
+            <input ngbButton type="radio" [value]="'m'"> M <span class="badge badge-light">{{ produto?.value?.estoque?.m || 0 }}</span>
           </label>
           <label ngbButtonLabel class="btn-primary">
-            <input ngbButton type="radio" [value]="'g'"> G <span class="badge badge-light">{{ produto?.value?.estoque?.g }}</span>
+            <input ngbButton type="radio" [value]="'g'"> G <span class="badge badge-light">{{ produto?.value?.estoque?.g || 0 }}</span>
           </label>
           <label ngbButtonLabel class="btn-primary">
-            <input ngbButton type="radio" [value]="'gg'"> GG <span class="badge badge-light">{{ produto?.value?.estoque?.gg }}</span>
+            <input ngbButton type="radio" [value]="'gg'"> GG <span class="badge badge-light">{{ produto?.value?.estoque?.gg || 0 }}</span>
+          </label>
+          <label ngbButtonLabel class="btn-primary">
+            <input ngbButton type="radio" [value]="'xg'"> XG <span class="badge badge-light">{{ produto?.value?.estoque?.xg || 0 }}</span>
+          </label>
+          <label ngbButtonLabel class="btn-primary">
+            <input ngbButton type="radio" [value]="'xxg'"> XXG <span class="badge badge-light">{{ produto?.value?.estoque?.xxg || 0 }}</span>
           </label>
         </div>
 
@@ -99,4 +105,5 @@
 <button type="button" class="btn btn-primary" (click)="salvar()"
   [disabled]="!form.valid || itens.length === 0">Salvar</button>
 
-<button type="button" class="btn btn-primary" (click)="print()">Print</button>
+<button type="button" class="btn btn-warning" (click)="reset()">Limpar</button>
+<!-- <button type="button" class="btn btn-primary" (click)="print()">Print</button> -->

@@ -36,6 +36,8 @@ export class ProdutoFormComponent extends BaseComponent implements OnInit {
         m: ['0'],
         g: ['0'],
         gg: ['0'],
+        xg: ['0'],
+        xxg: ['0'],
       })
     });
   }

@@ -3,7 +3,7 @@ import { ProdutoService } from '../../../../base/services/produto.service';
 import { BaseComponent } from '../../base/base-componente';
 
 @Component({
-  selector: 'ngx-produto-estoque',
+  selector: 'bsc-produto-estoque',
   templateUrl: './produto-estoque.component.html',
   styleUrls: ['./produto-estoque.component.scss']
 })
@@ -24,6 +24,8 @@ export class ProdutoEstoqueComponent extends BaseComponent implements OnInit {
       { prop: 'estoque.m', name: 'M' },
       { prop: 'estoque.g', name: 'G' },
       { prop: 'estoque.gg', name: 'GG' },
+      { prop: 'estoque.xg', name: 'XG' },
+      { prop: 'estoque.xxg', name: 'XXG' },
     ];
 
     this.produtoService.get().subscribe(data => {

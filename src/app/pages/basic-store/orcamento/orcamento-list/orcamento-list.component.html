@@ -4,13 +4,23 @@
   <nb-card-body>
     <form [formGroup]="form">
       <div class="row">
-        <div class="col-12">
+        <div class="col-2">
+          <div class="form-group">
+            <label for="numOrcamento">Nº Orçamento</label>
+            <input type="number" class="form-control" id="numOrcamento" formControlName="numOrcamento">
+          </div>
+        </div>
+        <div class="col-10">
           <bsc-cliente-auto-complete [formControl]="form.controls.cliente" (onSelect)="onSelectCliente($event)">
           </bsc-cliente-auto-complete>
         </div>
       </div>
     </form>
   </nb-card-body>
+  <nb-card-footer>
+    <button type="button" class="btn btn-primary" (click)="pesquisar()">Pesquisar</button>
+    <button type="button" class="btn btn-warning" (click)="reset()">Limpar</button>
+  </nb-card-footer>
 </nb-card>
 
 <nb-card>

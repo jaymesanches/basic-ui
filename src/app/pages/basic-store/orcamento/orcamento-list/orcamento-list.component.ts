@@ -6,7 +6,6 @@ import { BaseComponent } from '../../base/base-componente';
 import { Orcamento } from '../orcamento';
 import { ClienteTableRenderComponent } from '../../cliente/client-table-render/cliente-table-render.component';
 import { ButtonViewTableRenderComponent } from '../produto-table-render/button-view-table-render.component';
-import { routerNgProbeToken } from '@angular/router/src/router_module';
 
 @Component({
   selector: 'bsc-orcamento-list',
@@ -62,30 +61,45 @@ export class OrcamentoListComponent extends BaseComponent implements OnInit {
 
   ngOnInit() {
     this.initForm();
-    this.pesquisar();
   }
 
   initForm() {
     this.form = this.fb.group({
-      numero: ['', []],
+      numOrcamento: ['', []],
       cliente: ['', []],
     });
   }
 
   pesquisar() {
-    this.service.list().subscribe(data => {
-      console.log('ORCAMENTOS', data);
+    const filter = {
+      numero: Number,
+      cliente: Number
+    };
+
+    if (this.form.controls.numOrcamento.value) {
+      filter.numero = this.form.controls.numOrcamento.value;
+    }
+
+    if (this.form.controls.cliente.value) {
+      filter.cliente = this.form.controls.cliente.value._id;
+    }
+
+    this.service.filter(filter).subscribe(data => {
       this.orcamentos = data as any;
       this.orcamentos = [...this.orcamentos];
     });
   }
 
   imprimir(id) {
-    console.log('ID', id);
     this.router.navigate(['/orcamentos/print', id]);
   }
 
-  onSelectCliente() {
+  onSelectCliente(cliente) {
+    this.form.controls.cliente.setValue(cliente);
+  }
 
+  reset() {
+    this.form.reset();
+    this.orcamentos = [];
   }
 }

@@ -1,8 +1,10 @@
 export class Estoque {
-  u: number = 1;
-  pp: number = 1;
-  p: number = 1;
-  m: number = 1;
-  g: number = 1;
-  gg: number = 1;
+  u: number = 0;
+  pp: number = 0;
+  p: number = 0;
+  m: number = 0;
+  g: number = 0;
+  gg: number = 0;
+  xg: number = 0;
+  xxg: number = 0;
 }

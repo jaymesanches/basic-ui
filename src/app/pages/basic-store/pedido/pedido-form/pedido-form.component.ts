@@ -15,6 +15,7 @@ import { Cliente } from '../../cliente/cliente';
 export class PedidoFormComponent extends BaseComponent implements OnInit {
   form: FormGroup;
   orcamento: Orcamento;
+  columns = [];
 
   constructor(private orcamentoService: OrcamentoService,
     private fb: FormBuilder,
@@ -23,6 +24,7 @@ export class PedidoFormComponent extends BaseComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.initForm();
     this.form = this.fb.group({
       numOrcamento: ['', []],
     });
@@ -55,4 +57,18 @@ export class PedidoFormComponent extends BaseComponent implements OnInit {
     return enderecoFormatado;
   }
 
+  private initForm() {
+    this.columns = [
+      { prop: 'codigo', name: 'Código' },
+      { prop: 'descricao', name: 'Descrição' },
+      { prop: 'estoque.u', name: 'Único' },
+      { prop: 'estoque.pp', name: 'PP' },
+      { prop: 'estoque.p', name: 'P' },
+      { prop: 'estoque.m', name: 'M' },
+      { prop: 'estoque.g', name: 'G' },
+      { prop: 'estoque.gg', name: 'GG' },
+      { prop: 'estoque.xg', name: 'XG' },
+      { prop: 'estoque.xxg', name: 'XXG' },
+    ];
+  }
 }

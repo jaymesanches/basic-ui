@@ -11,44 +11,58 @@
           <ngx-datatable-column name="Descrição" prop="descricao"> </ngx-datatable-column>
 
           <ngx-datatable-column name="U" prop="estoque.u" headerClass="text-center">
-            <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex"  let-value="value" let-row="row">
-              <input class="form-control form-control-sm text-center" type="number" 
-              [value]="value" (blur)="updateValue($event, 'u', rowIndex)"/>
+            <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+              <input class="form-control form-control-sm text-center" type="number" [value]="value"
+                (blur)="updateValue($event, 'u', rowIndex)" />
             </ng-template>
           </ngx-datatable-column>
 
           <ngx-datatable-column name="PP" prop="estoque.pp" headerClass="text-center">
             <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
-              <input class="form-control form-control-sm text-center" type="number" 
-              [(value)]="value" (blur)="updateValue($event, 'pp', rowIndex)"/>
+              <input class="form-control form-control-sm text-center" type="number" [(value)]="value"
+                (blur)="updateValue($event, 'pp', rowIndex)" />
             </ng-template>
           </ngx-datatable-column>
 
           <ngx-datatable-column name="P" prop="estoque.p" headerClass="text-center">
             <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
-              <input class="form-control form-control-sm" type="number" 
-              [value]="value" (blur)="updateValue($event, 'p', rowIndex)"/>
+              <input class="form-control form-control-sm" type="number" [value]="value"
+                (blur)="updateValue($event, 'p', rowIndex)" />
             </ng-template>
           </ngx-datatable-column>
 
           <ngx-datatable-column name="M" prop="estoque.m" headerClass="text-center">
             <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
-              <input class="form-control form-control-sm" type="number" 
-              [value]="value" (blur)="updateValue($event, 'm', rowIndex)"/>
+              <input class="form-control form-control-sm" type="number" [value]="value"
+                (blur)="updateValue($event, 'm', rowIndex)" />
             </ng-template>
           </ngx-datatable-column>
 
           <ngx-datatable-column name="G" prop="estoque.g" headerClass="text-center">
             <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
-              <input class="form-control form-control-sm" type="number" 
-              [value]="value" (blur)="updateValue($event, 'g', rowIndex)"/>
+              <input class="form-control form-control-sm" type="number" [value]="value"
+                (blur)="updateValue($event, 'g', rowIndex)" />
             </ng-template>
           </ngx-datatable-column>
 
           <ngx-datatable-column name="GG" prop="estoque.gg" headerClass="text-center">
             <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
-              <input class="form-control form-control-sm" type="number" 
-              [value]="value" (blur)="updateValue($event, 'gg', rowIndex)"/>
+              <input class="form-control form-control-sm" type="number" [value]="value"
+                (blur)="updateValue($event, 'gg', rowIndex)" />
+            </ng-template>
+          </ngx-datatable-column>
+
+          <ngx-datatable-column name="XG" prop="estoque.xg" headerClass="text-center">
+            <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+              <input class="form-control form-control-sm" type="number" [value]="value"
+                (blur)="updateValue($event, 'xg', rowIndex)" />
+            </ng-template>
+          </ngx-datatable-column>
+
+          <ngx-datatable-column name="XXG" prop="estoque.xxg" headerClass="text-center">
+            <ng-template ngx-datatable-cell-template let-rowIndex="rowIndex" let-value="value" let-row="row">
+              <input class="form-control form-control-sm" type="number" [value]="value"
+                (blur)="updateValue($event, 'xxg', rowIndex)" />
             </ng-template>
           </ngx-datatable-column>
 

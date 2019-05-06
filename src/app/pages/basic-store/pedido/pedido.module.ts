@@ -9,6 +9,7 @@ import { PedidoListComponent } from './pedido-list/pedido-list.component';
 import { PedidoFormComponent } from './pedido-form/pedido-form.component';
 import { SharedModule } from '../../../shared/shared.module';
 import { OrcamentoService } from '../../../base/services/orcamento.service';
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 
 @NgModule({
   declarations: [PedidoComponent, PedidoListComponent, PedidoFormComponent],
@@ -17,6 +18,7 @@ import { OrcamentoService } from '../../../base/services/orcamento.service';
     PedidoRoutingModule,
     ThemeModule,
     SharedModule,
+    NgxDatatableModule,
   ],
   providers: [OrcamentoService]
 })

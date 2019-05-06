@@ -94,14 +94,14 @@ export class OrcamentoFormComponent extends BaseComponent implements OnInit {
       quantidade: ['', [Validators.required]],
       vlrUnitario: ['', [Validators.required]],
       tamanho: ['', [Validators.required]],
-      estoque: this.fb.group({
-        u: [0],
-        pp: [0],
-        p: [0],
-        m: [0],
-        g: [0],
-        gg: [0],
-      })
+      // estoque: this.fb.group({
+      //   u: [0],
+      //   pp: [0],
+      //   p: [0],
+      //   m: [0],
+      //   g: [0],
+      //   gg: [0],
+      // })
     });
   }
 
@@ -171,12 +171,18 @@ export class OrcamentoFormComponent extends BaseComponent implements OnInit {
     this.orcamento.orcamentosProdutos = [...this.orcamento.orcamentosProdutos];
   }
 
+  get produto() {
+    return this.formProduto.get('produto');
+  }
+
+  reset() {
+    this.form.reset();
+    this.orcamento = new Orcamento();
+    this.itens = [];
+  }
+
   private enderecoFormatado(endereco: Endereco) {
     const enderecoFormatado = `${endereco.logradouro}, Nº ${endereco.numero} - ${endereco.cidade} - ${endereco.estado}`;
     return enderecoFormatado;
-  }
-
-  get produto() {
-    return this.formProduto.get('produto');
   }
 }
