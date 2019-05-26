@@ -1,4 +1,7 @@
-import { Component, forwardRef, OnInit, Input, Output, EventEmitter, ElementRef, ViewChild } from '@angular/core';
+import {
+  Component, forwardRef, Input, Output, EventEmitter,
+  ElementRef, ViewChild, ChangeDetectionStrategy
+} from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor, FormControl, FormGroup, FormBuilder } from '@angular/forms';
 import { Observable, of } from 'rxjs';
 import { catchError, debounceTime, distinctUntilChanged, switchMap, tap } from 'rxjs/operators';
@@ -8,7 +11,7 @@ import { Produto } from '../../../pages/basic-store/produto/produto';
 
 export const CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR: any = {
   provide: NG_VALUE_ACCESSOR,
-// tslint:disable-next-line: no-use-before-declare
+  // tslint:disable-next-line: no-use-before-declare
   useExisting: forwardRef(() => ProdutoAutoCompleteComponent),
   multi: true
 };
@@ -18,6 +21,7 @@ export const CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR: any = {
   templateUrl: './produto-auto-complete.component.html',
   styleUrls: ['./produto-auto-complete.component.scss'],
   providers: [CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProdutoAutoCompleteComponent implements ControlValueAccessor {
   @Input() formControl: FormControl = new FormControl();
@@ -25,7 +29,7 @@ export class ProdutoAutoCompleteComponent implements ControlValueAccessor {
   @ViewChild('input') inputRef: ElementRef;
   searching;
   searchFailed;
-  onChange;
+  propagateChange = (_: any) => { };
   value;
 
   constructor(private produtoService: ProdutoService) { }
@@ -36,8 +40,8 @@ export class ProdutoAutoCompleteComponent implements ControlValueAccessor {
       distinctUntilChanged(),
       tap(() => this.searching = true),
       switchMap(term =>
-        this.produtoService.findByName(term).pipe(
-          tap(() => this.searchFailed = false),
+        this.produtoService.pesquisarPorDescricao(term).pipe(
+          tap(() => { this.searchFailed = false; }),
           catchError(() => {
             this.searchFailed = true;
             return of([]);
@@ -49,6 +53,7 @@ export class ProdutoAutoCompleteComponent implements ControlValueAccessor {
   formatter = produto => {
     this.onSelect.emit(produto);
     this.value = produto;
+    this.propagateChange(produto);
     return `${produto.descricao} - ${produto.cor}`;
   }
 
@@ -58,10 +63,13 @@ export class ProdutoAutoCompleteComponent implements ControlValueAccessor {
 
   writeValue(obj: any): void {
     this.value = obj;
+    if (!obj) {
+      this.inputRef.nativeElement.value = obj;
+    }
   }
 
   registerOnChange(fn: any): void {
-    this.onChange = fn;
+    this.propagateChange = fn;
   }
 
   registerOnTouched(fn: any): void {

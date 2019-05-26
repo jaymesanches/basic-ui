@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { BaseComponent } from '../../base/base-componente';
+import { BaseComponent } from '../../base/base.component';
 import { Orcamento } from '../../orcamento/orcamento';
 import { OrcamentoService } from '../../../../base/services/orcamento.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
@@ -31,7 +31,7 @@ export class PedidoFormComponent extends BaseComponent implements OnInit {
   }
 
   onBlurOrcamento(event) {
-    this.orcamentoService.findOne({ numero: event.target.value }).subscribe(
+    this.orcamentoService.pesquisarPorFiltros({ numero: event.target.value }).subscribe(
       data => this.orcamento = data
     );
   }

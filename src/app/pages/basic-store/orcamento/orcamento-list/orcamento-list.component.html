@@ -11,7 +11,7 @@
           </div>
         </div>
         <div class="col-10">
-          <bsc-cliente-auto-complete [formControl]="form.controls.cliente" (onSelect)="onSelectCliente($event)">
+          <bsc-cliente-auto-complete formControlName="cliente">
           </bsc-cliente-auto-complete>
         </div>
       </div>
@@ -26,8 +26,25 @@
 <nb-card>
   <nb-card-header>Orçamento</nb-card-header>
   <nb-card-body>
-    <ng2-smart-table [settings]="settings" [source]="orcamentos" (deleteConfirm)="onDeleteConfirm($event)"
-      (createConfirm)="onCreateConfirm($event)" (editConfirm)="onEditConfirm($event)">
-    </ng2-smart-table>
+    <ngx-datatable class="bootstrap " [rows]="orcamentos" [columns]="columns" [columnMode]="'force'" [headerHeight]="50"
+      [footerHeight]="50" [rowHeight]="'auto'" [reorderable]="reorderable">
+    </ngx-datatable>
   </nb-card-body>
 </nb-card>
+
+<ng-template #vlrTmpl let-row="row" let-value="value">
+  {{ value | currency: 'BRL':'' }}
+</ng-template>
+
+<ng-template #dateTmpl let-row="row" let-value="value">
+  {{ value | date: 'dd/MM/yyyy' }}
+</ng-template>
+
+<ng-template #acoesTmpl let-row="row" let-value="value">
+  <button type="button" class="btn btn-warning btn-sm" (click)="imprimir(value)">
+    <span class="fas fa-print"></span>
+  </button>
+  <button type="button" class="btn btn-warning btn-sm" (click)="editar(value)">
+    <span class="fas fa-dollar-sign"></span>
+  </button>
+</ng-template>

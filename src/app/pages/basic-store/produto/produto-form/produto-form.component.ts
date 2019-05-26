@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { BaseComponent } from '../../base/base-componente';
 import { Validators, FormBuilder, FormGroup } from '@angular/forms';
+
+import { BaseComponent } from '../../base/base.component';
+import { NbToastrService } from '@nebular/theme';
 import { ProdutoService } from '../../../../base/services/produto.service';
 import { Produto } from '../produto';
 
@@ -13,7 +15,8 @@ export class ProdutoFormComponent extends BaseComponent implements OnInit {
   form: FormGroup;
 
   constructor(private service: ProdutoService,
-    private fb: FormBuilder) {
+    private fb: FormBuilder,
+    private toastrService: NbToastrService) {
     super();
   }
 
@@ -45,11 +48,13 @@ export class ProdutoFormComponent extends BaseComponent implements OnInit {
   salvar() {
     let produto = new Produto();
     produto = this.form.value;
-    this.service.post(produto).subscribe();
+    this.service.salvar(produto).subscribe(data => {
+      this.toastrService.success('Produto salvo com sucesso.', 'Aviso');
+      this.reset();
+    }, error => this.toastrService.danger(error));
   }
 
   reset() {
     this.form.reset();
   }
-
 }

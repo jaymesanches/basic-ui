@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ProdutoService } from '../../../../base/services/produto.service';
-import { BaseComponent } from '../../base/base-componente';
+import { BaseComponent } from '../../base/base.component';
 
 @Component({
   selector: 'bsc-produto-estoque',
@@ -28,14 +28,14 @@ export class ProdutoEstoqueComponent extends BaseComponent implements OnInit {
       { prop: 'estoque.xxg', name: 'XXG' },
     ];
 
-    this.produtoService.get().subscribe(data => {
+    this.produtoService.listar().subscribe(data => {
       this.produtos = data as any;
     });
   }
 
   salvar() {
     this.produtos.forEach(p => {
-      this.produtoService.put(p).subscribe(data => {
+      this.produtoService.atualizar(p).subscribe(data => {
         console.log('DATA', data);
       });
     });

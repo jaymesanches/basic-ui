@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Orcamento } from '../../pages/basic-store/orcamento/orcamento';
 import { catchError, tap, map } from 'rxjs/operators';
-import { BaseService } from './baseService';
+import { BaseService } from './base-service';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable({
@@ -14,33 +14,33 @@ export class OrcamentoService extends BaseService {
     super(http);
   }
 
-  search(id?: string | number) {
+  pesquisar(id?: string | number) {
     id = id ? id : '';
     return this.http.get<Orcamento>(`${this.url}/search/${id}`).pipe(
       catchError(this.handleError),
     );
   }
 
-  findOne(obj: any) {
-    return this.http.post<Orcamento>(`${this.url}/findOne`, obj).pipe(
+  pesquisarPorFiltros(filtro: any) {
+    return this.http.post<Orcamento>(`${this.url}/filter`, filtro).pipe(
       catchError(this.handleError),
     );
   }
 
-  filter(obj: any) {
-    return this.http.post<Orcamento>(`${this.url}/filter`, obj).pipe(
-      catchError(this.handleError),
-    );
-  }
-
-  list() {
+  listar() {
     return this.http.get<Orcamento[]>(`${this.url}/list`).pipe(
       catchError(this.handleError),
     );
   }
 
-  post(orcamento: Orcamento) {
+  salvar(orcamento: Orcamento) {
     return this.http.post<Orcamento>(`${this.url}/salvar`, orcamento).pipe(
+      catchError(this.handleError),
+    );
+  }
+
+  atualizar(orcamento: Orcamento) {
+    return this.http.put<Orcamento>(`${this.url}`, orcamento).pipe(
       catchError(this.handleError),
     );
   }

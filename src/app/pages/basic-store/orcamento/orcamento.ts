@@ -1,10 +1,13 @@
 import { Cliente } from '../cliente/cliente';
 import { OrcamentoProduto } from './orcamento-produto';
+import { BaseObject } from '../../../base/base-object';
 
-export class Orcamento {
-  public _id: number;
+export class Orcamento extends BaseObject {
   public numero: number;
   public cliente: Cliente | number;
-  public vlrTotal: number;
+  public vlrTotal: number = 0;
   public orcamentosProdutos: OrcamentoProduto[];
+  public dtaCriacao: Date;
+  public dtaValidade: Date;
+  public situacao = 'ABERTO';
 }

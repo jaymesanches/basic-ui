@@ -6,7 +6,7 @@ import { OrcamentoService } from '../../../../base/services/orcamento.service';
 import { Orcamento } from '../orcamento';
 
 @Component({
-  selector: 'ngx-orcamento-print',
+  selector: 'bsc-orcamento-print',
   templateUrl: './orcamento-print.component.html',
   styleUrls: ['./orcamento-print.component.scss'],
 })
@@ -21,7 +21,7 @@ export class OrcamentoPrintComponent implements OnInit {
   ngOnInit() {
     const id: string = this.route.snapshot.params.id;
     console.log('ID', id);
-    this.service.search(id).subscribe(data => {
+    this.service.pesquisar(id).subscribe(data => {
       console.log('DATA', data);
       this.orcamento = data;
     });

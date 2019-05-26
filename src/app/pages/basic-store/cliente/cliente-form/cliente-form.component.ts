@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { BaseComponent } from '../../base/base-componente';
+import { BaseComponent } from '../../base/base.component';
 import { ClienteService } from '../../../../base/services/cliente.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Cliente } from '../cliente';
@@ -80,7 +80,7 @@ export class ClienteFormComponent extends BaseComponent implements OnInit {
 
     cliente.enderecos.push(enderecoCobranca, enderecoEntrega);
 
-    this.service.post(cliente).subscribe(data => {
+    this.service.salvar(cliente).subscribe(data => {
 
     });
   }

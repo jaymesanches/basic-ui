@@ -15,6 +15,10 @@ const routes: Routes = [
         component: OrcamentoFormComponent,
       },
       {
+        path: 'orcamento-form/:id',
+        component: OrcamentoFormComponent,
+      },
+      {
         path: 'orcamento-list',
         component: OrcamentoListComponent,
       },

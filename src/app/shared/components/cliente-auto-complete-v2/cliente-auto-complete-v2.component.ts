@@ -1,39 +1,39 @@
-import {
-  Component, ElementRef, forwardRef, OnInit, Renderer,
-  ViewChild, Output, EventEmitter, ChangeDetectionStrategy, ViewEncapsulation
-} from '@angular/core';
+import { Component, ElementRef, forwardRef, OnInit, Renderer, ViewChild } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { Observable, of } from 'rxjs';
-import { catchError, debounceTime, distinctUntilChanged, switchMap, tap } from 'rxjs/operators';
+import { Observable, of, Subject } from 'rxjs';
+import { catchError, debounceTime, distinctUntilChanged, switchMap, tap, map } from 'rxjs/operators';
 import { ClienteService } from '../../../base/services/cliente.service';
 import { Cliente } from '../../../pages/basic-store/cliente/cliente';
 
 @Component({
-  selector: 'bsc-cliente-auto-complete',
-  templateUrl: './cliente-auto-complete.component.html',
-  styleUrls: ['./cliente-auto-complete.component.scss'],
+  selector: 'bsc-cliente-auto-complete-v2',
+  templateUrl: './cliente-auto-complete-v2.component.html',
+  styleUrls: ['./cliente-auto-complete-v2.component.scss'],
   providers: [{
     provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef(() => ClienteAutoCompleteComponent),
+    useExisting: forwardRef(() => ClienteAutoCompleteV2Component),
     multi: true
   }],
-  encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ClienteAutoCompleteComponent implements ControlValueAccessor, OnInit {
+export class ClienteAutoCompleteV2Component implements ControlValueAccessor, OnInit {
   @ViewChild('input') inputRef: ElementRef;
-  @Output() onSelect = new EventEmitter<Cliente>();
-  searching;
-  searchFailed;
   propagateChange = (_: any) => { };
   value;
+  searching;
+  searchFailed;
 
-  cliente: Cliente;
+  private clientes: Cliente[];
 
   constructor(private clienteService: ClienteService,
     private renderer: Renderer) { }
 
-  ngOnInit(): void {
+  ngOnInit() {
+  }
+
+  private filterString: Subject<string> = new Subject<string>();
+
+  seila = (text$: Observable<Cliente>) => {
+    return this.clienteService.pesquisarPorNome(text$);
   }
 
   search = (text$: Observable<Cliente>) =>
@@ -52,23 +52,13 @@ export class ClienteAutoCompleteComponent implements ControlValueAccessor, OnIni
       tap(() => this.searching = false)
     )
 
-  formatter = cliente => {
-    this.propagateChange(cliente);
-    this.onSelect.emit(cliente);
-    return cliente.nome;
-  }
-
   onChange(event) {
     this.value = event.target.value;
   }
 
   writeValue(obj: any): void {
-    if (obj) {
-      this.value = obj;
-      this.inputRef.nativeElement.value = obj instanceof String ? obj : obj.nome;
-    } else {
-      this.inputRef.nativeElement.value = null;
-    }
+    this.value = obj;
+    this.inputRef.nativeElement.value = obj;
   }
 
   registerOnChange(fn: any): void {
@@ -82,4 +72,5 @@ export class ClienteAutoCompleteComponent implements ControlValueAccessor, OnIni
     console.log('DISABLED STATE', isDisabled);
     this.renderer.setElementProperty(this.inputRef.nativeElement, 'disabled', isDisabled);
   }
+
 }

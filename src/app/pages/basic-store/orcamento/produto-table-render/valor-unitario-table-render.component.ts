@@ -6,12 +6,12 @@ import { ViewCell } from 'ng2-smart-table';
     {{renderValue}}
   `,
 })
-export class TotalItemTableRenderComponent implements ViewCell, OnInit {
+export class ValorUnitarioTableRenderComponent implements ViewCell, OnInit {
   @Input() value: string | number;
   @Input() rowData: any;
   renderValue: string;
 
   ngOnInit() {
-    this.renderValue = (this.rowData.quantidade * this.rowData.vlrUnitario).toFixed(2);
+    this.renderValue = (this.rowData.vlrUnitario).toFixed(2);
   }
 }

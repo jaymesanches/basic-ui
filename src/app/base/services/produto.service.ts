@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { BaseService } from './baseService';
+import { BaseService } from './base-service';
 import { HttpClient } from '@angular/common/http';
 import { Produto } from '../../pages/basic-store/produto/produto';
 import { catchError, tap, map } from 'rxjs/operators';
@@ -14,31 +14,31 @@ export class ProdutoService extends BaseService {
     super(http);
   }
 
-  findByName(descricao: any) {
+  pesquisarPorDescricao(descricao: any) {
     return this.http.get<Produto>(`${this.url}/search?descricao=${descricao}`).pipe(
       map(response => response)
     );
   }
 
-  get() {
+  listar() {
     return this.http.get<Produto>(this.url).pipe(
       catchError(this.handleError)
     );
   }
 
-  post(produto) {
+  salvar(produto) {
     return this.http.post<Produto>(this.url, produto).pipe(
       catchError(this.handleError)
     );
   }
 
-  put(produto) {
+  atualizar(produto) {
     return this.http.put<Produto>(`${this.url}/update/${produto._id}`, produto).pipe(
       catchError(this.handleError)
     );
   }
 
-  delete(id) {
+  remover(id) {
     return this.http.delete(`${this.url}/${id}`).pipe(
       catchError(this.handleError)
     );

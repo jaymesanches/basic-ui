@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Cliente } from '../../pages/basic-store/cliente/cliente';
 import { HttpClient } from '@angular/common/http';
 import { catchError, tap, map } from 'rxjs/operators';
-import { BaseService } from './baseService';
+import { BaseService } from './base-service';
 import { of } from 'rxjs';
 
 @Injectable({
@@ -16,38 +16,32 @@ export class ClienteService extends BaseService {
     super(http);
   }
 
-  findByName(nome: any) {
-    console.log('nome', nome);
-    
+  pesquisarPorNome(nome: any) {
     return this.http.get<Cliente>(`${this.url}/search?nome=${nome}`).pipe(
-      map(response => response)
+      // map(response => response)
+      catchError(this.handleError)
     );
   }
 
-  get() {
+  listar() {
     return this.http.get<Cliente>(this.url).pipe(
       catchError(this.handleError)
     );
   }
 
-  post(Cliente) {
-    return this.http.post<Cliente>(this.url, Cliente).pipe(
+  salvar(cliente) {
+    return this.http.post<Cliente>(this.url, cliente).pipe(
       catchError(this.handleError)
     );
   }
 
-  put(cliente) {
-    console.log('Cliente-body', cliente);
-    return this.http.put<Cliente>(`http://localhost:4000/api/clientes/update/${cliente._id}`, cliente).pipe(
-      tap( // Log the result or error
-        data => console.log('tap', data),
-        error => console.log('tap error', error)
-      )
-      // catchError(this.handleError)
+  atualizar(cliente) {
+    return this.http.put<Cliente>(`${this.url}/update/${cliente._id}`, cliente).pipe(
+      catchError(this.handleError)
     );
   }
 
-  delete(id) {
+  remover(id) {
     return this.http.delete(`${this.url}/${id}`).pipe(
       catchError(this.handleError)
     );

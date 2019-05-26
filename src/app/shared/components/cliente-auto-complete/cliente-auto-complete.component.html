@@ -1,9 +1,11 @@
 <div class="form-group">
   <label for="nome">Cliente</label>
   <input type="text" class="form-control" id="nome" placeholder="Digite o nome" [ngbTypeahead]="search"
-    [resultTemplate]="rt" [inputFormatter]="formatter" #input />
+    [resultTemplate]="rt" [inputFormatter]="formatter" (change)="onChange($event)" #input />
 </div>
 
 <ng-template #rt let-r="result" let-t="term">
-  <ngb-highlight [result]="r.nome" [term]="t"></ngb-highlight>
+  <div style="overflow-y: auto; position:relative">
+    <ngb-highlight [result]="r.nome" [term]="t"></ngb-highlight>
+  </div>
 </ng-template>

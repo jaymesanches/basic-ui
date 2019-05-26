@@ -4,8 +4,8 @@
       <nb-card-header>Produtos</nb-card-header>
       <nb-card-body>
         <ngx-datatable class="bootstrap stripped" [rows]="produtos" [loadingIndicator]="loadingIndicator"
-          [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="3"
-          [reorderable]="reorderable">
+          [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="5"
+          [reorderable]="reorderable" >
 
           <ngx-datatable-column name="Código" prop="codigo"> </ngx-datatable-column>
           <ngx-datatable-column name="Descrição" prop="descricao"> </ngx-datatable-column>

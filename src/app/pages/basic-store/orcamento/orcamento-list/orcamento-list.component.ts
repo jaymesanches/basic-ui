@@ -1,11 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { OrcamentoService } from '../../../../base/services/orcamento.service';
-import { BaseComponent } from '../../base/base-componente';
+import { BaseComponent } from '../../base/base.component';
 import { Orcamento } from '../orcamento';
-import { ClienteTableRenderComponent } from '../../cliente/client-table-render/cliente-table-render.component';
-import { ButtonViewTableRenderComponent } from '../produto-table-render/button-view-table-render.component';
+import { NbToastrService } from '@nebular/theme';
 
 @Component({
   selector: 'bsc-orcamento-list',
@@ -13,60 +12,30 @@ import { ButtonViewTableRenderComponent } from '../produto-table-render/button-v
   styleUrls: ['./orcamento-list.component.scss'],
 })
 export class OrcamentoListComponent extends BaseComponent implements OnInit {
+  @ViewChild('acoesTmpl') acoesTmpl: TemplateRef<any>;
+  @ViewChild('vlrTmpl') vlrTmpl: TemplateRef<any>;
+  @ViewChild('dateTmpl') dateTmpl: TemplateRef<any>;
   form: FormGroup;
   orcamentos: Orcamento[] = [];
-  settings = {
-    hideSubHeader: true,
-    noDataMessage: 'Nenhum produto adicionado',
-    actions: {
-      columnTitle: 'Remover',
-      add: false,
-      edit: false,
-      delete: false,
-      position: 'right',
-    },
-    columns: {
-      numero: {
-        title: 'Número',
-        type: 'number',
-      },
-      cliente: {
-        title: 'Cliente',
-        type: 'custom',
-        renderComponent: ClienteTableRenderComponent,
-      },
-      vlrTotal: {
-        title: 'Valor',
-        type: 'number',
-      },
-      _id: {
-        title: 'Imprimir',
-        type: 'custom',
-        renderComponent: ButtonViewTableRenderComponent,
-        onComponentInitFunction(instance) {
-          instance.out.subscribe(row => {
-            alert(`${row} saved!`);
-          });
-        },
-      },
-    },
-  };
+  columns = [];
 
   constructor(
     private service: OrcamentoService,
     private fb: FormBuilder,
-    private router: Router) {
+    private router: Router,
+    private toastrService: NbToastrService) {
     super();
   }
 
   ngOnInit() {
     this.initForm();
+    this.initColumns();
   }
 
-  initForm() {
+  private initForm() {
     this.form = this.fb.group({
       numOrcamento: ['', []],
-      cliente: ['', []],
+      cliente: [{ value: '', disabled: false }, []],
     });
   }
 
@@ -84,22 +53,37 @@ export class OrcamentoListComponent extends BaseComponent implements OnInit {
       filter.cliente = this.form.controls.cliente.value._id;
     }
 
-    this.service.filter(filter).subscribe(data => {
-      this.orcamentos = data as any;
-      this.orcamentos = [...this.orcamentos];
+    this.service.pesquisarPorFiltros(filter).subscribe(data => {
+      if (data && (data as any).length > 0) {
+        this.orcamentos = [...data as any];
+      } else {
+        this.toastrService.danger('Nenhum orçamento encontrado.', 'Aviso');
+      }
     });
   }
 
   imprimir(id) {
-    this.router.navigate(['/orcamentos/print', id]);
-  }
-
-  onSelectCliente(cliente) {
-    this.form.controls.cliente.setValue(cliente);
+    this.router.navigate(['/pages/basic-store/orcamento/orcamento-print', id]);
   }
 
   reset() {
     this.form.reset();
     this.orcamentos = [];
+  }
+
+  editar(id) {
+    console.log('edit', id);
+    this.router.navigate(['/pages/basic-store/orcamento/orcamento-form', id]);
+  }
+
+  private initColumns() {
+    this.columns = [
+      { prop: 'numero', name: 'Código', width: 80 },
+      { prop: 'cliente.nome', name: 'Cliente' },
+      { prop: 'vlrTotal', name: 'Valor', cellTemplate: this.vlrTmpl },
+      { prop: 'dtaCriacao', name: 'Data', cellTemplate: this.dateTmpl },
+      { prop: 'situacao', name: 'Situação' },
+      { prop: '_id', name: 'Ações', cellTemplate: this.acoesTmpl },
+    ];
   }
 }

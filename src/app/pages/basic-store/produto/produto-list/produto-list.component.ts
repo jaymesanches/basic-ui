@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ProdutoService } from '../../../../base/services/produto.service';
-import { BaseComponent } from '../../base/base-componente';
+import { BaseComponent } from '../../base/base.component';
 
 @Component({
   selector: 'bsc-produto-list',
@@ -70,14 +70,14 @@ export class ProdutoListComponent extends BaseComponent implements OnInit {
   }
 
   get() {
-    this.service.get().subscribe(data => {
+    this.service.listar().subscribe(data => {
       this.produtos = data;
       console.log(this.produtos);
     });
   }
 
   onEditConfirm(event) {
-    this.service.put(event.newData).subscribe(data => {
+    this.service.atualizar(event.newData).subscribe(data => {
       console.log('DATA EDIT', data);
       event.confirm.resolve();
     }, error => {
@@ -87,14 +87,14 @@ export class ProdutoListComponent extends BaseComponent implements OnInit {
   }
 
   onCreateConfirm(event) {
-    this.service.post(event.newData).subscribe();
+    this.service.salvar(event.newData).subscribe();
     this.produtos = [...this.produtos, event.newData];
     event.confirm.resolve();
   }
 
   onDeleteConfirm(event) {
     console.log('D>', event, this.produtos);
-    this.service.delete(event.data._id).subscribe(data => {
+    this.service.remover(event.data._id).subscribe(data => {
       event.confirm.resolve();
     }, error => event.confirm.reject());
   }

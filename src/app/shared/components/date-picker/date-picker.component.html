@@ -1,0 +1,14 @@
+<form class="form-inline">
+  <div class="form-group">
+    <div class="input-group">
+      <input class="form-control" name="dp" ngbDatepicker (dateSelect)="onDateSelect($event)"
+        #d="ngbDatepicker" [textMask]="{mask: mask}">
+      <!-- <div class="input-group-append" style="color: aliceblue">
+        <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button"></button>
+      </div> -->
+      <div class="input-group-addon" (click)="d.toggle()">
+        <i class="far fa-calendar-alt"></i>
+      </div>
+    </div>
+  </div>
+</form> 

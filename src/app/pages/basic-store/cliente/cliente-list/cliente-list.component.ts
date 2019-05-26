@@ -55,7 +55,7 @@ export class ClienteListComponent implements OnInit {
   }
 
   get() {
-    this.service.get().subscribe(data => {
+    this.service.listar().subscribe(data => {
       this.clientes = data;
       console.log(this.clientes);
     });
@@ -63,7 +63,7 @@ export class ClienteListComponent implements OnInit {
 
   onEditConfirm(event) {
     console.log('E>', event.data);
-    this.service.put(event.newData).subscribe(data => {
+    this.service.atualizar(event.newData).subscribe(data => {
       console.log('DATA EDIT', data);
       event.confirm.resolve();
     }, error => {
@@ -74,13 +74,13 @@ export class ClienteListComponent implements OnInit {
 
   onCreateConfirm(event) {
     console.log('C>', event, this.clientes);
-    this.service.post(event.newData).subscribe();
+    this.service.salvar(event.newData).subscribe();
     this.clientes = [...this.clientes, event.newData];
     event.confirm.resolve();
   }
 
   onDeleteConfirm(event) {
-    this.service.delete(event.data._id).subscribe(data => {
+    this.service.remover(event.data._id).subscribe(data => {
       event.confirm.resolve();
     }, error => event.confirm.reject());
   }

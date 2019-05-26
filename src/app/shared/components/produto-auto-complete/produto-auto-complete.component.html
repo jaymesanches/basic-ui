@@ -1,7 +1,7 @@
 <div class="form-group">
   <label for="nome">Produto</label>
   <input type="text" class="form-control" id="descricao" placeholder="Digite o produto" [ngbTypeahead]="search"
-    [resultTemplate]="rt" [inputFormatter]="formatter" #input />
+    [resultTemplate]="rt" [inputFormatter]="formatter" #input/>
 </div>
 
 <ng-template #rt let-r="result" let-t="term">
