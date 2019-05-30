@@ -12,6 +12,7 @@ import { OrcamentoProduto } from '../orcamento-produto';
 import { ProdutoTableRenderComponent } from '../produto-table-render/produto-table-render.component';
 import { TotalItemTableRenderComponent } from '../produto-table-render/total-item-table-render.component';
 import { ValorUnitarioTableRenderComponent } from '../produto-table-render/valor-unitario-table-render.component';
+import { BsLocaleService } from 'ngx-bootstrap';
 
 class ItemOrcamento {
   _id: Number;
@@ -33,7 +34,6 @@ export class OrcamentoFormComponent extends BaseComponent implements OnInit {
   formProduto: FormGroup;
   orcamento: Orcamento = new Orcamento();
   itens = [];
-  dta = { year: 1789, month: 7, day: 14 };
 
   settings = {
     hideSubHeader: true,
@@ -85,7 +85,8 @@ export class OrcamentoFormComponent extends BaseComponent implements OnInit {
     private fb: FormBuilder,
     private router: Router,
     private route: ActivatedRoute,
-    private toastrService: NbToastrService) {
+    private toastrService: NbToastrService,
+  ) {
     super();
   }
 
@@ -96,15 +97,16 @@ export class OrcamentoFormComponent extends BaseComponent implements OnInit {
     if (id) {
       this.service.pesquisar(id).subscribe(data => {
         this.orcamento = data;
-
-        const date = new Date();
-        const ngbDateStruct = { day: date.getUTCDate(), month: date.getUTCMonth() + 1, year: date.getUTCFullYear() };
         this.form.patchValue(this.orcamento);
-        // this.dateToNgbDate(orcamento.dtaValidade)
-        this.form.controls.dtaValidade.setValue(ngbDateStruct);
+        this.form.controls.dtaValidade.setValue(new Date(this.orcamento.dtaValidade));
         this.form.controls.endereco.setValue(this.enderecoFormatado(this.endereco));
 
         this.popularItens();
+
+        if (this.orcamento.situacao === 'FECHADO') {
+          this.form.disable();
+          this.formProduto.disable();
+        }
 
       }, error => this.toastrService.danger(error));
     }
@@ -122,6 +124,8 @@ export class OrcamentoFormComponent extends BaseComponent implements OnInit {
       item.vlrUnitario = op.vlrUnitario;
 
       this.itens.push(item);
+
+      this.calcularValorTotal();
     });
 
     this.itens = [...this.itens];
@@ -140,7 +144,8 @@ export class OrcamentoFormComponent extends BaseComponent implements OnInit {
       cliente: ['', [Validators.required]],
       endereco: [{ value: '', disabled: true }],
       vlrTotal: [{ value: '0', disabled: true }],
-      dtaValidade: [{ value: this.dta, disabled: true }, []],
+      dtaValidade: ['', []],
+      situacao: ['', []],
     });
     this.formProduto = this.fb.group({
       produto: ['', [Validators.required]],
@@ -164,16 +169,18 @@ export class OrcamentoFormComponent extends BaseComponent implements OnInit {
     if (item.quantidade <= totalEstoque) {
       this.itens = [...this.itens, item];
 
-      const vlrTotal = this.itens.reduce(
-        (total, obj) => total + obj.vlrUnitario * obj.quantidade, 0);
-
-      this.form.controls.vlrTotal.setValue(vlrTotal || 0);
+      this.calcularValorTotal();
       this.formProduto.reset();
     } else {
       const mensagem = totalEstoque <= 0 ? 'Sem estoque.' :
         `Estoque insuficiente, somente ${totalEstoque} em estoque.`;
       this.toastrService.danger(mensagem, 'Atenção');
     }
+  }
+
+  private calcularValorTotal() {
+    const vlrTotal = this.itens.reduce((total, obj) => total + obj.vlrUnitario * obj.quantidade, 0);
+    this.form.controls.vlrTotal.setValue(vlrTotal || 0);
   }
 
   salvar() {
@@ -183,10 +190,6 @@ export class OrcamentoFormComponent extends BaseComponent implements OnInit {
       const produto: Produto = item.produto;
       const qtdeEmEstoque = produto.estoque[item.tamanho];
       produto.estoque[item.tamanho] = qtdeEmEstoque - item.quantidade;
-
-      this.produtoService.atualizar(produto).subscribe(data => {
-        console.log('Estoque Produto Atualizado');
-      });
 
       const orcamentoProduto = new OrcamentoProduto();
       orcamentoProduto._id = item._id;
@@ -198,8 +201,12 @@ export class OrcamentoFormComponent extends BaseComponent implements OnInit {
       this.orcamento.orcamentosProdutos = [...this.orcamento.orcamentosProdutos, orcamentoProduto];
     });
 
+    this.produtoService.baixarEstoque(this.orcamento).subscribe(data => {
+      console.log('Estoque Produto Atualizado');
+    });
+
     this.orcamento.vlrTotal = Number(this.form.controls.vlrTotal.value || 0);
-    this.orcamento.dtaValidade = this.ngbDateToDate(this.form.controls.dtaValidade.value);
+    this.orcamento.dtaValidade = this.form.controls.dtaValidade.value;
 
     if (this.orcamento._id) {
       this.service.atualizar(this.orcamento).subscribe(data => {
@@ -247,6 +254,14 @@ export class OrcamentoFormComponent extends BaseComponent implements OnInit {
     this.formProduto.reset();
     this.orcamento = new Orcamento();
     this.itens = [];
+  }
+
+  goBack() {
+    this.router.navigate(['/pages/basic-store/orcamento/orcamento-list']);
+  }
+
+  get editando() {
+    return this.orcamento && this.orcamento._id;
   }
 
   private enderecoFormatado(endereco: Endereco) {

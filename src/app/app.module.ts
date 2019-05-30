@@ -15,6 +15,7 @@ import { ThemeModule } from './@theme/theme.module';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SharedModule } from './shared/shared.module';
+import { BsDatepickerModule } from 'ngx-bootstrap';
 
 registerLocaleData(localePt);
 
@@ -31,10 +32,7 @@ registerLocaleData(localePt);
     ThemeModule.forRoot(),
     CoreModule.forRoot(),
     NgbTypeaheadModule.forRoot(),
-    // NbDateFnsDateModule.forRoot({
-    //   parseOptions: { awareOfUnicodeTokens: true },
-    //   formatOptions: { awareOfUnicodeTokens: true },
-    // })
+    BsDatepickerModule.forRoot(),
   ],
   bootstrap: [AppComponent],
   providers: [

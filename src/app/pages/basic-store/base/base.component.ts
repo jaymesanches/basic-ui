@@ -12,7 +12,8 @@ export class BaseComponent {
     { value: 'M', title: 'M' },
     { value: 'G', title: 'G' },
     { value: 'GG', title: 'GG' },
-    { value: 'XG', title: 'XG' }
+    { value: 'XG', title: 'XG' },
+    { value: 'XXG', title: 'XXG' }
   ]
 
   ngbDateToDate(data: NgbDateStruct): Date {

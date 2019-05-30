@@ -3,12 +3,13 @@ import { BaseService } from './base-service';
 import { HttpClient } from '@angular/common/http';
 import { Produto } from '../../pages/basic-store/produto/produto';
 import { catchError, tap, map } from 'rxjs/operators';
+import { Orcamento } from '../../pages/basic-store/orcamento/orcamento';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProdutoService extends BaseService {
-  url = 'http://localhost:4000/api/produtos';
+  url = `${this.apiUrl}/produtos`;
 
   constructor(protected http: HttpClient) {
     super(http);
@@ -34,6 +35,18 @@ export class ProdutoService extends BaseService {
 
   atualizar(produto) {
     return this.http.put<Produto>(`${this.url}/update/${produto._id}`, produto).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  atualizarProdutos(produtos) {
+    return this.http.post<Produto[]>(`${this.url}/update-all`, produtos).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  baixarEstoque(orcamento: Orcamento) {
+    return this.http.post(`${this.url}/baixar-estoque`, orcamento).pipe(
       catchError(this.handleError)
     );
   }

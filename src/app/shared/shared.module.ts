@@ -13,6 +13,8 @@ import { NgbDatePTParserFormatter } from './components/date-picker/ngb-date-pars
 import { ProdutoAutoCompleteComponent } from './components/produto-auto-complete/produto-auto-complete.component';
 import { SharedRoutingModule } from './shared-routing.module';
 import { TextMaskModule } from 'angular2-text-mask';
+import { NgxDatePickerComponent } from './components/ngx-date-picker/ngx-date-picker.component';
+import { BsDatepickerModule } from 'ngx-bootstrap';
 
 @NgModule({
   declarations: [
@@ -20,7 +22,8 @@ import { TextMaskModule } from 'angular2-text-mask';
     ProdutoAutoCompleteComponent,
     ControlValueAcessorComponent,
     DatePickerComponent,
-    CampoDecimalComponent],
+    CampoDecimalComponent,
+    NgxDatePickerComponent],
   imports: [
     CommonModule,
     NgbTypeaheadModule,
@@ -28,13 +31,15 @@ import { TextMaskModule } from 'angular2-text-mask';
     SharedRoutingModule,
     NgbDatepickerModule,
     CurrencyMaskModule,
-    TextMaskModule
+    TextMaskModule,
+    BsDatepickerModule
   ],
   exports: [
     ClienteAutoCompleteComponent,
     ProdutoAutoCompleteComponent,
     ControlValueAcessorComponent,
     DatePickerComponent,
+    NgxDatePickerComponent,
     CampoDecimalComponent],
   providers: [
     [I18n, { provide: NgbDatepickerI18n, useClass: DatePickerI18n }],

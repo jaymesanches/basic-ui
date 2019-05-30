@@ -15,6 +15,7 @@ export class OrcamentoListComponent extends BaseComponent implements OnInit {
   @ViewChild('acoesTmpl') acoesTmpl: TemplateRef<any>;
   @ViewChild('vlrTmpl') vlrTmpl: TemplateRef<any>;
   @ViewChild('dateTmpl') dateTmpl: TemplateRef<any>;
+  situacoes = ['TODAS', 'ABERTO', 'FECHADO', 'EXPIRADO'];
   form: FormGroup;
   orcamentos: Orcamento[] = [];
   columns = [];
@@ -36,13 +37,15 @@ export class OrcamentoListComponent extends BaseComponent implements OnInit {
     this.form = this.fb.group({
       numOrcamento: ['', []],
       cliente: [{ value: '', disabled: false }, []],
+      situacao: ['TODAS']
     });
   }
 
   pesquisar() {
     const filter = {
       numero: Number,
-      cliente: Number
+      cliente: Number,
+      situacao: String
     };
 
     if (this.form.controls.numOrcamento.value) {
@@ -52,6 +55,8 @@ export class OrcamentoListComponent extends BaseComponent implements OnInit {
     if (this.form.controls.cliente.value) {
       filter.cliente = this.form.controls.cliente.value._id;
     }
+
+    filter.situacao = this.form.controls.situacao.value;
 
     this.service.pesquisarPorFiltros(filter).subscribe(data => {
       if (data && (data as any).length > 0) {
@@ -67,12 +72,11 @@ export class OrcamentoListComponent extends BaseComponent implements OnInit {
   }
 
   reset() {
-    this.form.reset();
+    this.form.reset({situacao: 'TODAS'});
     this.orcamentos = [];
   }
 
   editar(id) {
-    console.log('edit', id);
     this.router.navigate(['/pages/basic-store/orcamento/orcamento-form', id]);
   }
 

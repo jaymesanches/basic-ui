@@ -6,7 +6,7 @@
       <div class="row">
         <div class="col-lg-2 col-md-6 col-sm-12 mb-3">
           <label for="dtaValidade">Data de Validade</label>
-          <bsc-date-picker formControlName="dtaValidade"></bsc-date-picker>
+          <ngx-date-picker formControlName="dtaValidade"></ngx-date-picker>
         </div>
       </div>
       <div class="row">
@@ -17,7 +17,6 @@
         <div class="col-lg-6 col-md-12">
           <label for="endereco">Endereço</label>
           <p class="font-weight-bold">{{ form.controls.endereco.value }}</p>
-          <!-- <input type="text" class="form-control" id="endereco" formControlName="endereco"> -->
         </div>
         <!-- <div class="col-lg-6 col-md-12">
           <label for="endereco2">Endereço</label>
@@ -109,13 +108,16 @@
       </div>
     </nb-card-footer>
   </nb-card>
+
+
+  <button type="button" class="btn btn-primary" (click)="salvar()"
+    [disabled]="!form.valid || itens.length === 0 || form.controls.situacao?.value === 'FECHADO'">Salvar</button>
+
+  <button *ngIf="editando && form.controls.situacao?.value !== 'FECHADO'" type="button" class="btn btn-success"
+    (click)="fecharPedido()" [disabled]="!form.valid || itens.length === 0">Fechar Pedido</button>
+    
+  <button type="button" class="btn btn-warning" (click)="goBack()">Cancelar</button>
 </form>
 
-<button type="button" class="btn btn-primary" (click)="salvar()"
-  [disabled]="!form.valid || itens.length === 0">Salvar</button>
 
-<button type="button" class="btn btn-success" (click)="fecharPedido()"
-  [disabled]="!form.valid || itens.length === 0">Fechar Pedido</button>
-
-<button type="button" class="btn btn-warning" (click)="reset()">Limpar</button>
 <!-- <button type="button" class="btn btn-primary" (click)="print()">Print</button> -->

@@ -7,7 +7,7 @@ import { ProdutoService } from '../../../../base/services/produto.service';
 import { Produto } from '../produto';
 
 @Component({
-  selector: 'ngx-produto-form',
+  selector: 'bsc-produto-form',
   templateUrl: './produto-form.component.html',
   styleUrls: ['./produto-form.component.scss']
 })

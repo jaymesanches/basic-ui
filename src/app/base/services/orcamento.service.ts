@@ -8,7 +8,7 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root',
 })
 export class OrcamentoService extends BaseService {
-  url = 'http://localhost:4000/api/orcamentos';
+  url = `${this.apiUrl}/orcamentos`;
 
   constructor(protected http: HttpClient) {
     super(http);

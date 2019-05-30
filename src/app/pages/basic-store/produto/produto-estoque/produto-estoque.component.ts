@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ProdutoService } from '../../../../base/services/produto.service';
 import { BaseComponent } from '../../base/base.component';
+import { NbToastrService } from '@nebular/theme';
 
 @Component({
   selector: 'bsc-produto-estoque',
@@ -10,7 +11,8 @@ import { BaseComponent } from '../../base/base.component';
 export class ProdutoEstoqueComponent extends BaseComponent implements OnInit {
   produtos = [];
   columns = [];
-  constructor(private produtoService: ProdutoService) {
+  constructor(private produtoService: ProdutoService,
+    private toastrService: NbToastrService) {
     super();
   }
 
@@ -34,15 +36,11 @@ export class ProdutoEstoqueComponent extends BaseComponent implements OnInit {
   }
 
   salvar() {
-    this.produtos.forEach(p => {
-      this.produtoService.atualizar(p).subscribe(data => {
-        console.log('DATA', data);
-      });
+    this.produtoService.atualizarProdutos(this.produtos).subscribe(data => {
+      if ((data as any).success) {
+        this.toastrService.success((data as any).success, 'Aviso');
+      }
     });
-  }
-
-  reset() {
-
   }
 
   updateValue(event, cell, rowIndex) {

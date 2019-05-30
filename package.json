@@ -17,6 +17,7 @@
   "scripts": {
     "ng": "ng",
     "conventional-changelog": "conventional-changelog",
+    "host": "ng serve --host 192.168.0.102 --disable-host-check",
     "start": "ng serve",
     "build": "ng build",
     "build:prod": "npm run build -- --prod --aot",
@@ -75,6 +76,7 @@
     "ng2-completer": "2.0.8",
     "ng2-currency-mask": "^5.3.1",
     "ng2-smart-table": "1.3.5",
+    "ngx-bootstrap": "^4.2.0",
     "ngx-echarts": "^4.0.1",
     "normalize.css": "6.0.0",
     "pace-js": "1.0.2",

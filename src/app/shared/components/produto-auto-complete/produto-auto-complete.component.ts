@@ -1,13 +1,12 @@
 import {
   Component, forwardRef, Input, Output, EventEmitter,
-  ElementRef, ViewChild, ChangeDetectionStrategy
+  ElementRef, ViewChild, ChangeDetectionStrategy, Renderer
 } from '@angular/core';
 import { NG_VALUE_ACCESSOR, ControlValueAccessor, FormControl, FormGroup, FormBuilder } from '@angular/forms';
 import { Observable, of } from 'rxjs';
 import { catchError, debounceTime, distinctUntilChanged, switchMap, tap } from 'rxjs/operators';
 import { ProdutoService } from '../../../base/services/produto.service';
 import { Produto } from '../../../pages/basic-store/produto/produto';
-
 
 export const CUSTOM_INPUT_CONTROL_VALUE_ACCESSOR: any = {
   provide: NG_VALUE_ACCESSOR,
@@ -32,7 +31,8 @@ export class ProdutoAutoCompleteComponent implements ControlValueAccessor {
   propagateChange = (_: any) => { };
   value;
 
-  constructor(private produtoService: ProdutoService) { }
+  constructor(private produtoService: ProdutoService,
+    private renderer: Renderer) { }
 
   search = (text$: Observable<Produto>) =>
     text$.pipe(
@@ -76,5 +76,6 @@ export class ProdutoAutoCompleteComponent implements ControlValueAccessor {
 
   }
   setDisabledState?(isDisabled: boolean): void {
+    this.renderer.setElementProperty(this.inputRef.nativeElement, 'disabled', isDisabled);
   }
 }

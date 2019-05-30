@@ -16,6 +16,7 @@ import { OrcamentoPrintComponent } from './orcamento-print/orcamento-print.compo
 import { ClienteTableRenderComponent } from '../cliente/client-table-render/cliente-table-render.component';
 import { ButtonViewTableRenderComponent } from './produto-table-render/button-view-table-render.component';
 import { ValorUnitarioTableRenderComponent } from './produto-table-render/valor-unitario-table-render.component';
+import { BsDatepickerModule } from 'ngx-bootstrap';
 
 @NgModule({
   imports: [
@@ -24,7 +25,8 @@ import { ValorUnitarioTableRenderComponent } from './produto-table-render/valor-
     ThemeModule,
     SharedModule,
     Ng2SmartTableModule,
-    NgxDatatableModule
+    NgxDatatableModule,
+    BsDatepickerModule
   ],
   declarations: [OrcamentoComponent,
     OrcamentoListComponent,

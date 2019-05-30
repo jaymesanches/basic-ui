@@ -1,0 +1,19 @@
+<form class="form-inline">
+  <div class="form-group">
+    <div class="input-group">
+      <input type="text" 
+        placeholder="DD/MM/YYYY" 
+        class="form-control" 
+        bsDatepicker 
+        (bsValueChange)="onDateSelect($event)"
+        [bsConfig]="bsConfig" 
+        [(bsValue)]="bsValue" 
+        value="{{bsValue | date: 'dd/MM/yyyy'}}"
+        #d="bsDatepicker"
+        [isDisabled]="isDisabled">
+      <div class="input-group-addon" (click)="d.toggle()">
+        <i class="far fa-calendar-alt"></i>
+      </div>
+    </div>
+  </div>
+</form>

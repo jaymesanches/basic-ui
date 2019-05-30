@@ -1,5 +1,6 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { throwError } from 'rxjs';
+import { environment } from '../../../environments/environment.prod';
 
 export class BaseService {
   constructor(protected http: HttpClient) {
@@ -19,5 +20,9 @@ export class BaseService {
     // return an observable with a user-facing error message
     return throwError(
       'Something bad happened; please try again later.');
+  }
+
+  get apiUrl(){
+    return environment.url;
   }
 }
