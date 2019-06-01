@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NbToastrService } from '@nebular/theme';
@@ -12,7 +12,6 @@ import { OrcamentoProduto } from '../orcamento-produto';
 import { ProdutoTableRenderComponent } from '../produto-table-render/produto-table-render.component';
 import { TotalItemTableRenderComponent } from '../produto-table-render/total-item-table-render.component';
 import { ValorUnitarioTableRenderComponent } from '../produto-table-render/valor-unitario-table-render.component';
-import { BsLocaleService } from 'ngx-bootstrap';
 
 class ItemOrcamento {
   _id: Number;
@@ -28,12 +27,14 @@ class ItemOrcamento {
   selector: 'bsc-orcamento-form',
   templateUrl: './orcamento-form.component.html',
   styleUrls: ['./orcamento-form.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Default,
 })
 export class OrcamentoFormComponent extends BaseComponent implements OnInit {
   form: FormGroup;
   formProduto: FormGroup;
   orcamento: Orcamento = new Orcamento();
   itens = [];
+  itensRemovidos = [];
 
   settings = {
     hideSubHeader: true,
@@ -86,6 +87,7 @@ export class OrcamentoFormComponent extends BaseComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private toastrService: NbToastrService,
+    private cd: ChangeDetectorRef,
   ) {
     super();
   }
@@ -107,7 +109,7 @@ export class OrcamentoFormComponent extends BaseComponent implements OnInit {
           this.form.disable();
           this.formProduto.disable();
         }
-
+        this.cd.detectChanges();
       }, error => this.toastrService.danger(error));
     }
   }
@@ -125,10 +127,10 @@ export class OrcamentoFormComponent extends BaseComponent implements OnInit {
 
       this.itens.push(item);
 
-      this.calcularValorTotal();
     });
 
     this.itens = [...this.itens];
+    this.calcularValorTotal();
   }
 
   get endereco() {
@@ -218,6 +220,13 @@ export class OrcamentoFormComponent extends BaseComponent implements OnInit {
         this.reset();
       }, error => this.toastrService.danger(error));
     }
+
+    this.itensRemovidos.forEach(op => {
+      this.produtoService.subirEstoque(op).subscribe();
+    });
+
+    this.itensRemovidos = [];
+    this.goBack();
   }
 
   fecharPedido() {
@@ -242,6 +251,8 @@ export class OrcamentoFormComponent extends BaseComponent implements OnInit {
     this.orcamento.orcamentosProdutos =
       this.orcamento.orcamentosProdutos.filter(item => (item.produto as Produto)._id !== op.data.produto._id);
 
+    this.itensRemovidos.push(op.data);
+
     this.popularItens();
   }
 
@@ -254,6 +265,7 @@ export class OrcamentoFormComponent extends BaseComponent implements OnInit {
     this.formProduto.reset();
     this.orcamento = new Orcamento();
     this.itens = [];
+    this.itensRemovidos = [];
   }
 
   goBack() {

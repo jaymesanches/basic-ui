@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Produto } from '../../pages/basic-store/produto/produto';
 import { catchError, tap, map } from 'rxjs/operators';
 import { Orcamento } from '../../pages/basic-store/orcamento/orcamento';
+import { OrcamentoProduto } from '../../pages/basic-store/orcamento/orcamento-produto';
 
 @Injectable({
   providedIn: 'root'
@@ -47,6 +48,12 @@ export class ProdutoService extends BaseService {
 
   baixarEstoque(orcamento: Orcamento) {
     return this.http.post(`${this.url}/baixar-estoque`, orcamento).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  subirEstoque(orcamentoProduto: OrcamentoProduto) {
+    return this.http.post(`${this.url}/subir-estoque`, orcamentoProduto).pipe(
       catchError(this.handleError)
     );
   }
