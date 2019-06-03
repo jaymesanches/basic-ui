@@ -2,5 +2,8 @@
   <label for="campo">{{label}}</label>
   <input type="text" class="form-control text-right" id="campo" 
     [textMask]="{mask: numberMask}" 
-    (change)="onChange($event)" #input>
+    (change)="onChange($event)" 
+     #input>
 </div>
+
+<!--value="{{ $event.target.value | currency: 'BRL': ''}}"-->

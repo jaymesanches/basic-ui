@@ -15,6 +15,8 @@ import { SharedRoutingModule } from './shared-routing.module';
 import { TextMaskModule } from 'angular2-text-mask';
 import { NgxDatePickerComponent } from './components/ngx-date-picker/ngx-date-picker.component';
 import { BsDatepickerModule } from 'ngx-bootstrap';
+import { CalculoFreteCorreiosComponent } from './components/calculo-frete-correios/calculo-frete-correios.component';
+import { ThemeModule } from '../@theme/theme.module';
 
 @NgModule({
   declarations: [
@@ -23,9 +25,11 @@ import { BsDatepickerModule } from 'ngx-bootstrap';
     ControlValueAcessorComponent,
     DatePickerComponent,
     CampoDecimalComponent,
-    NgxDatePickerComponent],
+    NgxDatePickerComponent,
+    CalculoFreteCorreiosComponent],
   imports: [
     CommonModule,
+    ThemeModule,
     NgbTypeaheadModule,
     NguiAutoCompleteModule,
     SharedRoutingModule,
@@ -40,7 +44,8 @@ import { BsDatepickerModule } from 'ngx-bootstrap';
     ControlValueAcessorComponent,
     DatePickerComponent,
     NgxDatePickerComponent,
-    CampoDecimalComponent],
+    CampoDecimalComponent,
+    CalculoFreteCorreiosComponent],
   providers: [
     [I18n, { provide: NgbDatepickerI18n, useClass: DatePickerI18n }],
     [{ provide: NgbDateParserFormatter, useClass: NgbDatePTParserFormatter }],

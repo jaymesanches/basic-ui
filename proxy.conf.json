@@ -1,0 +1,10 @@
+{
+  "/correios": {
+    "target": "http://ws.correios.com.br/calculador/CalcPrecoPrazo.aspx",
+    "secure": true,
+    "pathRewrite": {
+    "^/correios": ""
+  },
+    "changeOrigin": true
+  }
+}

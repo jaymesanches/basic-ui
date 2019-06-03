@@ -1,121 +1,145 @@
 <h3>Orçamento</h3>
 <form [formGroup]="form">
   <nb-card>
-    <nb-card-header>Cliente</nb-card-header>
-    <nb-card-body>
-      <div class="row">
-        <div class="col-lg-2 col-md-6 col-sm-12 mb-3">
-          <label for="dtaValidade">Data de Validade</label>
-          <ngx-date-picker formControlName="dtaValidade"></ngx-date-picker>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-lg-6 col-md-12">
-          <bsc-cliente-auto-complete [formControl]="form.controls.cliente" (onSelect)="onSelectCliente($event)">
-          </bsc-cliente-auto-complete>
-        </div>
-        <div class="col-lg-6 col-md-12">
-          <label for="endereco">Endereço</label>
-          <p class="font-weight-bold">{{ form.controls.endereco.value }}</p>
-        </div>
-        <!-- <div class="col-lg-6 col-md-12">
-          <label for="endereco2">Endereço</label>
-          <input type="text" class="form-control" id="endereco2" mask="99-99-9999" [showMaskTyped] = "true">
-        </div> -->
-      </div>
-    </nb-card-body>
-  </nb-card>
-  <nb-card>
-    <nb-card-header>Selecionar Produtos</nb-card-header>
-    <nb-card-body>
-      <form [formGroup]="formProduto">
-        <div class="row">
-          <div class="col-6">
-            <bsc-produto-auto-complete [formControl]="formProduto.controls.produto"
-              (onSelect)="onSelectProduto($event)">
-            </bsc-produto-auto-complete>
-          </div>
-        </div>
-
-        <div class="mb-2">Tamanho</div>
-        <div class="btn-group btn-group-toggle mb-4" ngbRadioGroup name="radioBasic" formControlName="tamanho">
-          <label ngbButtonLabel class="btn-primary">
-            <input ngbButton type="radio" [value]="'u'"> U <span
-              class="badge badge-light">{{ produto?.value?.estoque?.u || 0 }}</span>
-          </label>
-          <label ngbButtonLabel class="btn-primary">
-            <input ngbButton type="radio" [value]="'pp'"> PP <span
-              class="badge badge-light">{{ produto?.value?.estoque?.pp || 0 }}</span>
-          </label>
-          <label ngbButtonLabel class="btn-primary">
-            <input ngbButton type="radio" [value]="'p'"> P <span
-              class="badge badge-light">{{ produto?.value?.estoque?.p || 0 }}</span>
-          </label>
-          <label ngbButtonLabel class="btn-primary">
-            <input ngbButton type="radio" [value]="'m'"> M <span
-              class="badge badge-light">{{ produto?.value?.estoque?.m || 0 }}</span>
-          </label>
-          <label ngbButtonLabel class="btn-primary">
-            <input ngbButton type="radio" [value]="'g'"> G <span
-              class="badge badge-light">{{ produto?.value?.estoque?.g || 0 }}</span>
-          </label>
-          <label ngbButtonLabel class="btn-primary">
-            <input ngbButton type="radio" [value]="'gg'"> GG <span
-              class="badge badge-light">{{ produto?.value?.estoque?.gg || 0 }}</span>
-          </label>
-          <label ngbButtonLabel class="btn-primary">
-            <input ngbButton type="radio" [value]="'xg'"> XG <span
-              class="badge badge-light">{{ produto?.value?.estoque?.xg || 0 }}</span>
-          </label>
-          <label ngbButtonLabel class="btn-primary">
-            <input ngbButton type="radio" [value]="'xxg'"> XXG <span
-              class="badge badge-light">{{ produto?.value?.estoque?.xxg || 0 }}</span>
-          </label>
-        </div>
-
-        <div class="row">
-          <div class="col-2">
-            <div class="form-group">
-              <label for="quantidade">Quantidade</label>
-              <input type="number" class="form-control" id="quantidade" placeholder="Quantidade"
-                formControlName="quantidade">
+    <nb-tabset fullWidth>
+      <nb-tab tabTitle="Cliente">
+        <div class="container-fluid pt-4">
+          <div class="row">
+            <div class="col-lg-2 col-md-6 col-sm-12 mb-3">
+              <label for="dtaValidade">Data de Validade</label>
+              <ngx-date-picker formControlName="dtaValidade"></ngx-date-picker>
             </div>
           </div>
-          <div class="col-2">
-            <bsc-campo-decimal formControlName="vlrUnitario" [label]="'Valor Unitário'"></bsc-campo-decimal>
-          </div>
-          <div class="col-2">
-            <button type="button" class="btn btn-primary no-label" (click)="adicionarProduto()"
-              [disabled]="!formProduto.valid">Adicionar</button>
+          <div class="row">
+            <div class="col-lg-6 col-md-12">
+              <bsc-cliente-auto-complete [formControl]="form.controls.cliente" (onSelect)="onSelectCliente($event)">
+              </bsc-cliente-auto-complete>
+            </div>
+            <div class="col-lg-6 col-md-12">
+              <label for="endereco">Endereço</label>
+              <p class="font-weight-bold">{{ form.controls.endereco.value }}</p>
+            </div>
+            <!-- <div class="col-lg-6 col-md-12">
+                      <label for="endereco2">Endereço</label>
+                      <input type="text" class="form-control" id="endereco2" mask="99-99-9999" [showMaskTyped] = "true">
+                    </div> -->
           </div>
         </div>
-      </form>
-    </nb-card-body>
-  </nb-card>
+      </nb-tab>
+      <nb-tab tabTitle="Produtos">
+        <div class="container-fluid pt-4">
+          <form [formGroup]="formProduto">
+            <div class="row">
+              <div class="col-6">
+                <bsc-produto-auto-complete [formControl]="formProduto.controls.produto"
+                  (onSelect)="onSelectProduto($event)">
+                </bsc-produto-auto-complete>
+              </div>
+            </div>
 
-  <nb-card>
-    <nb-card-header>Orçamento</nb-card-header>
-    <nb-card-body>
-      <ng2-smart-table [settings]="settings" [source]="itens" (deleteConfirm)="onDeleteConfirm($event)"
-        (createConfirm)="onCreateConfirm($event)" (editConfirm)="onEditConfirm($event)">
-      </ng2-smart-table>
-    </nb-card-body>
-    <nb-card-footer>
-      <div class="row float-right">
-        <div class="col">
-          <p class="h4">Valor Total: {{ form.controls.vlrTotal.value | currency: 'BRL':'' }}</p>
+            <div class="mb-2">Tamanho</div>
+            <div class="btn-group btn-group-toggle mb-4" ngbRadioGroup name="radioBasic" formControlName="tamanho">
+              <label ngbButtonLabel class="btn-primary">
+                <input ngbButton type="radio" [value]="'u'"> U <span
+                  class="badge badge-light">{{ produto?.value?.estoque?.u || 0 }}</span>
+              </label>
+              <label ngbButtonLabel class="btn-primary">
+                <input ngbButton type="radio" [value]="'pp'"> PP <span
+                  class="badge badge-light">{{ produto?.value?.estoque?.pp || 0 }}</span>
+              </label>
+              <label ngbButtonLabel class="btn-primary">
+                <input ngbButton type="radio" [value]="'p'"> P <span
+                  class="badge badge-light">{{ produto?.value?.estoque?.p || 0 }}</span>
+              </label>
+              <label ngbButtonLabel class="btn-primary">
+                <input ngbButton type="radio" [value]="'m'"> M <span
+                  class="badge badge-light">{{ produto?.value?.estoque?.m || 0 }}</span>
+              </label>
+              <label ngbButtonLabel class="btn-primary">
+                <input ngbButton type="radio" [value]="'g'"> G <span
+                  class="badge badge-light">{{ produto?.value?.estoque?.g || 0 }}</span>
+              </label>
+              <label ngbButtonLabel class="btn-primary">
+                <input ngbButton type="radio" [value]="'gg'"> GG <span
+                  class="badge badge-light">{{ produto?.value?.estoque?.gg || 0 }}</span>
+              </label>
+              <label ngbButtonLabel class="btn-primary">
+                <input ngbButton type="radio" [value]="'xg'"> XG <span
+                  class="badge badge-light">{{ produto?.value?.estoque?.xg || 0 }}</span>
+              </label>
+              <label ngbButtonLabel class="btn-primary">
+                <input ngbButton type="radio" [value]="'xxg'"> XXG <span
+                  class="badge badge-light">{{ produto?.value?.estoque?.xxg || 0 }}</span>
+              </label>
+            </div>
+
+            <div class="row">
+              <div class="col-2">
+                <div class="form-group">
+                  <label for="quantidade">Quantidade</label>
+                  <input type="number" class="form-control" id="quantidade" placeholder="Quantidade"
+                    formControlName="quantidade">
+                </div>
+              </div>
+              <div class="col-2">
+                <bsc-campo-decimal formControlName="vlrUnitario" [label]="'Valor Unitário'"></bsc-campo-decimal>
+              </div>
+              <div class="col-2">
+                <button type="button" class="btn btn-primary btn-no-label" (click)="adicionarProduto()"
+                  [disabled]="!formProduto.valid">Adicionar</button>
+              </div>
+            </div>
+
+            <ng2-smart-table [settings]="settings" [source]="itens" (deleteConfirm)="onDeleteConfirm($event)"
+              (createConfirm)="onCreateConfirm($event)" (editConfirm)="onEditConfirm($event)">
+            </ng2-smart-table>
+
+            <div class="row pt-4 float-right">
+              <div class="col">
+                <p class="h4">Valor Total: {{ form.controls.vlrTotal.value | currency: 'BRL':'' }}</p>
+              </div>
+            </div>
+          </form>
         </div>
-      </div>
-    </nb-card-footer>
+      </nb-tab>
+      <nb-tab tabTitle="Entrega">
+        <div class="container-fluid pt-4">
+          <div class="row">
+            <div class="col-6">
+              <nb-radio-group formControlName="tipoEntrega">
+                <nb-radio *ngFor="let item of tiposEntrega" [value]="item.codigo">
+                  <p class="h6"> {{item.descricao}} - {{item.vlrEntrega | currency: 'BRL': 'R$'}} </p>
+                </nb-radio>
+              </nb-radio-group>
+            </div>
+            <div class="col-2">
+              <div class="form-group">
+                <label for="vlrTaxa">Taxa Entrega</label>
+                <input type="number" class="form-control" id="vlrTaxa" formControlName="vlrTaxa">
+              </div>
+            </div>
+          </div>
+        </div>
+      </nb-tab>
+      <nb-tab tabTitle="Pagamento">
+        <div class="container-fluid pt-4">
+          <span>Content #3</span>
+        </div>
+      </nb-tab>
+      <nb-tab tabTitle="Confirmação">
+        <div class="container-fluid pt-4">
+          <span>Content #3</span>
+        </div>
+      </nb-tab>
+    </nb-tabset>
   </nb-card>
-
 
   <button type="button" class="btn btn-primary" (click)="salvar()"
     [disabled]="!form.valid || itens.length === 0 || form.controls.situacao?.value === 'FECHADO'">Salvar</button>
 
   <button *ngIf="editando && form.controls.situacao?.value !== 'FECHADO'" type="button" class="btn btn-success"
     (click)="fecharPedido()" [disabled]="!form.valid || itens.length === 0">Fechar Pedido</button>
-    
+
   <button type="button" class="btn btn-warning" (click)="goBack()">Cancelar</button>
 </form>
 

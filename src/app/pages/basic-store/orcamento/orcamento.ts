@@ -10,4 +10,7 @@ export class Orcamento extends BaseObject {
   public dtaCriacao: Date;
   public dtaValidade: Date;
   public situacao = 'ABERTO';
+  public tipoEntrega: number;
+  public vlrEntrega: number = 0;
+  public vlrTaxa: number = 0;
 }

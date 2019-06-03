@@ -1,9 +1,10 @@
-import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NbToastrService } from '@nebular/theme';
 import { OrcamentoService } from '../../../../base/services/orcamento.service';
 import { ProdutoService } from '../../../../base/services/produto.service';
+import { ParametrosEnvio } from '../../../../shared/components/calculo-frete-correios/parametros-envio';
 import { BaseComponent } from '../../base/base.component';
 import { Endereco } from '../../cliente/endereco';
 import { Produto } from '../../produto/produto';
@@ -12,6 +13,8 @@ import { OrcamentoProduto } from '../orcamento-produto';
 import { ProdutoTableRenderComponent } from '../produto-table-render/produto-table-render.component';
 import { TotalItemTableRenderComponent } from '../produto-table-render/total-item-table-render.component';
 import { ValorUnitarioTableRenderComponent } from '../produto-table-render/valor-unitario-table-render.component';
+import { FreteCorreiosService } from '../../../../base/services/frete-correios.service';
+import * as xml2js from 'xml2js';
 
 class ItemOrcamento {
   _id: Number;
@@ -27,14 +30,22 @@ class ItemOrcamento {
   selector: 'bsc-orcamento-form',
   templateUrl: './orcamento-form.component.html',
   styleUrls: ['./orcamento-form.component.scss'],
-  changeDetection: ChangeDetectionStrategy.Default,
 })
 export class OrcamentoFormComponent extends BaseComponent implements OnInit {
+  PAC = 4510;
+  SEDEX = 4514;
   form: FormGroup;
   formProduto: FormGroup;
   orcamento: Orcamento = new Orcamento();
   itens = [];
   itensRemovidos = [];
+  tiposEntrega = [
+    { _id: 1, codigo: 1, descricao: 'Retirar no local', vlrEntrega: 0 },
+    { _id: 2, codigo: 2, descricao: 'Motoboy', vlrEntrega: 30 },
+    { _id: 3, codigo: 4510, descricao: 'PAC', vlrEntrega: 0 },
+    { _id: 4, codigo: 4014, descricao: 'SEDEX', vlrEntrega: 0 },
+  ];
+  tipoEntregaSelecionado = { _id: 3, codigo: 4510, descricao: 'PAC', vlrEntrega: 0 };
 
   settings = {
     hideSubHeader: true,
@@ -87,7 +98,7 @@ export class OrcamentoFormComponent extends BaseComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private toastrService: NbToastrService,
-    private cd: ChangeDetectorRef,
+    private freteCorreios: FreteCorreiosService
   ) {
     super();
   }
@@ -109,7 +120,6 @@ export class OrcamentoFormComponent extends BaseComponent implements OnInit {
           this.form.disable();
           this.formProduto.disable();
         }
-        this.cd.detectChanges();
       }, error => this.toastrService.danger(error));
     }
   }
@@ -148,6 +158,9 @@ export class OrcamentoFormComponent extends BaseComponent implements OnInit {
       vlrTotal: [{ value: '0', disabled: true }],
       dtaValidade: ['', []],
       situacao: ['', []],
+      tipoEntrega: [this.PAC, [Validators.required]],
+      vlrEntrega: [0, []],
+      vlrTaxa: [0, []],
     });
     this.formProduto = this.fb.group({
       produto: ['', [Validators.required]],
@@ -183,6 +196,7 @@ export class OrcamentoFormComponent extends BaseComponent implements OnInit {
   private calcularValorTotal() {
     const vlrTotal = this.itens.reduce((total, obj) => total + obj.vlrUnitario * obj.quantidade, 0);
     this.form.controls.vlrTotal.setValue(vlrTotal || 0);
+    this.calcularFretes();
   }
 
   salvar() {
@@ -200,6 +214,7 @@ export class OrcamentoFormComponent extends BaseComponent implements OnInit {
       orcamentoProduto.tamanho = item.tamanho;
       orcamentoProduto.vlrUnitario = Number(item.vlrUnitario);
 
+
       this.orcamento.orcamentosProdutos = [...this.orcamento.orcamentosProdutos, orcamentoProduto];
     });
 
@@ -209,6 +224,9 @@ export class OrcamentoFormComponent extends BaseComponent implements OnInit {
 
     this.orcamento.vlrTotal = Number(this.form.controls.vlrTotal.value || 0);
     this.orcamento.dtaValidade = this.form.controls.dtaValidade.value;
+    this.orcamento.tipoEntrega = this.form.controls.tipoEntrega.value;
+    this.orcamento.vlrEntrega = this.form.controls.tipoEntrega.value.vlrEntrega;
+    this.orcamento.vlrTaxa = this.form.controls.vlrTaxa.value;
 
     if (this.orcamento._id) {
       this.service.atualizar(this.orcamento).subscribe(data => {
@@ -254,6 +272,25 @@ export class OrcamentoFormComponent extends BaseComponent implements OnInit {
     this.itensRemovidos.push(op.data);
 
     this.popularItens();
+  }
+
+  calcularFretes() {
+    const pesoTotal = this.itens.reduce((peso, obj) => peso + obj.produto.peso, 0);
+
+    const parametros: ParametrosEnvio = new ParametrosEnvio();
+    parametros.nVlPeso = (pesoTotal / 1000);
+    parametros.sCepDestino = this.endereco.cep;
+
+    this.freteCorreios.calcularPrecoPrazo(parametros).subscribe(
+      data => {
+        xml2js.parseString(data, (err, result) => {
+          result.Servicos.cServico.forEach(e => {
+            const tipo = this.tiposEntrega.find(t => this.parseNumber(e.Codigo[0]) === t.codigo);
+            tipo.vlrEntrega = this.parseNumber(e.Valor[0]);
+
+          });
+        });
+      });
   }
 
   get produto() {
