@@ -99,7 +99,7 @@
     "@angular/cli": "^7.3.8",
     "@angular/compiler-cli": "^7.2.11",
     "@angular/language-service": "7.2.11",
-    "@compodoc/compodoc": "1.0.1",
+    "@compodoc/compodoc": "1.1.19",
     "@fortawesome/fontawesome-free": "^5.2.0",
     "@types/d3-color": "1.0.5",
     "@types/googlemaps": "^3.30.4",
